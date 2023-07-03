@@ -3,7 +3,7 @@ name: Test installation
 
 jobs:
   use-latest-version:
-    name: "Test getting latest stable CLI version"
+    name: "Test getting latest CLI stable version"
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -39,6 +39,20 @@ jobs:
       - name: Install 1Password CLI
         uses: ./ # 1password/install-cli-action@<version>
         with:
-          version: 2.16.0
+          version: 2.18.0
       - name: Check CLI version
-        run: ./test/assert-version.sh 2.16.0
+        run: ./test/assert-version.sh 2.18.0
+  use-specific-beta-version:
+    name: "Test getting a specific CLI beta version"
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install 1Password CLI
+        uses: ./ # 1password/install-cli-action@<version>
+        with:
+          version: 2.19.0-beta.01
+      - name: Check CLI version
+        run: ./test/assert-version.sh 2.19.0-beta.01
