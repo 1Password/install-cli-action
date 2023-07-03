@@ -27,35 +27,38 @@ install_op_cli() {
         exit 1
     fi
     echo "::debug::OP_INSTALL_DIR: ${OP_INSTALL_DIR}"
+
+    echo "Installing 1Password CLI version: ${OP_CLI_VERSION}"
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         # Get architecture
         ARCH=$(uname -m)
-        if [ "$(getconf LONG_BIT)" = 32 ]; then
+        if [[ "$(getconf LONG_BIT)" = 32 ]]; then
             ARCH="386"
-        elif [ "$ARCH" == "x86_64" ]; then
+        elif [[ "$ARCH" == "x86_64" ]]; then
             ARCH="amd64"
-        elif [ "$ARCH" == "aarch64" ]; then
+        elif [[ "$ARCH" == "aarch64" ]]; then
             ARCH="arm64"
         fi
 
-        curl -sSfLo op.zip "https://cache.agilebits.com/dist/1P/op2/pkg/$OP_CLI_VERSION/op_linux_$ARCH_$OP_CLI_VERSION.zip"
+        curl -sSfLo op.zip "https://cache.agilebits.com/dist/1P/op2/pkg/${OP_CLI_VERSION}/op_linux_${ARCH}_${OP_CLI_VERSION}.zip"
         unzip -od "$OP_INSTALL_DIR" op.zip && rm op.zip
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-        curl -sSfLo op.pkg "https://cache.agilebits.com/dist/1P/op2/pkg/$OP_CLI_VERSION/op_apple_universal_$OP_CLI_VERSION.pkg"
+        curl -sSfLo op.pkg "https://cache.agilebits.com/dist/1P/op2/pkg/${OP_CLI_VERSION}/op_apple_universal_${OP_CLI_VERSION}.pkg"
         pkgutil --expand op.pkg temp-pkg
         tar -xvf temp-pkg/op.pkg/Payload -C "$OP_INSTALL_DIR"
         rm -rf temp-pkg && rm op.pkg
     else
         echo "Install 1Password CLI GitHub Action isn't supported on this operating system yet: $OSTYPE."
+        exit 1
     fi
     echo "$OP_INSTALL_DIR" >>"$GITHUB_PATH"
 }
 
 # Main action of the script
 
-if [ "$OP_CLI_VERSION" == "latest" ]; then
+if [[ "$OP_CLI_VERSION" == "latest" ]]; then
     get_latest_cli_version non_beta
-elif [ "$OP_CLI_VERSION" == "latest-beta" ]; then
+elif [[ "$OP_CLI_VERSION" == "latest-beta" ]]; then
     get_latest_cli_version beta
 else
     OP_CLI_VERSION="v$OP_CLI_VERSION"
