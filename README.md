@@ -1,10 +1,19 @@
-# Install 1Password CLI - GitHub Action
+<!-- Image sourced from https://blog.1password.com/1password-cli-2_0/ -->
+<img alt="" role="img" src="https://blog.1password.com/posts/2022/1password-cli-2.0/header.png"/>
 
-This action installs [1Password CLI](https://developer.1password.com/docs/cli) into GitHub Action.
+<header style="text-align: center;">
+	<h1 style="margin-top: 20px; border-bottom: none;">Install 1Password CLI GitHub Action</h1>
+	<p>Install the <a href="https://developer.1password.com/docs/cli">1Password CLI</a> to access and manage your 1Password items in your GitHub Action runner.</p>
+	<a href="#✨-quickstart">
+		<img alt="Get started" src="https://user-images.githubusercontent.com/45081667/226940040-16d3684b-60f4-4d95-adb2-5757a8f1bc15.png" height="37"/>
+	</a>
+</header>
 
-## Examples
+# ✨ Quickstart
 
-To install the latest version (i.e. `latest`) of the 1Password CLI:
+To install the latest version of the 1Password CLI:
+<br>
+(**Note:** `latest` version is installed by default, so you don't need to specify a version.)
 
 ```yaml
 - name: Install 1Password CLI
@@ -29,18 +38,20 @@ To install a specific version of the 1Password CLI:
     version: 2.18.0
 ```
 
-## Supported Runners
+## ⚙️ Supported Runners
 
-You can run the action on Linux and macOS runners. Windows is currently not supported.
+You can perform the action on Linux and MacOS runners. Windows is not currently supported.
 
-## Security
+## 💙 Community & Support
+
+- File an [issue](https://github.com/1Password/install-cli-action/issues) for bugs and feature requests.
+- Join the [Developer Slack workspace](https://join.slack.com/t/1password-devs/shared_invite/zt-1halo11ps-6o9pEv96xZ3LtX_VE0fJQA).
+- Subscribe to the [Developer Newsletter](https://1password.com/dev-subscribe/).
+
+## 🔐 Security
 
 1Password requests you practice responsible disclosure if you discover a vulnerability.
 
 Please file requests via [**BugCrowd**](https://bugcrowd.com/agilebits).
 
 For information about security practices, please visit our [Security homepage](https://bugcrowd.com/agilebits).
-
-## Getting help
-
-If you find yourself stuck, visit our [**Support Page**](https://support.1password.com/) for help.
