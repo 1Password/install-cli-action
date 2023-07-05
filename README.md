@@ -2,7 +2,7 @@
 <img alt="" role="img" src="https://blog.1password.com/posts/2022/1password-cli-2.0/header.png"/>
 
 <div align="center">
-	<h1>Install 1Password CLI GitHub Action</h1>
+	<h1>1Password CLI - GitHub Action</h1>
 	<p>Install the <a href="https://developer.1password.com/docs/cli">1Password CLI</a> to access and manage your 1Password items in your GitHub Action runner.</p>
 	<a href="#✨-quickstart">
 		<img alt="Get started" src="https://user-images.githubusercontent.com/45081667/226940040-16d3684b-60f4-4d95-adb2-5757a8f1bc15.png" height="37"/>
@@ -18,14 +18,14 @@ To install the latest version of the 1Password CLI: \
 
 ```yaml
 - name: Install 1Password CLI
-  uses: 1Password/install-cli@v1
+  uses: 1password/install-cli-action@v1
 ```
 
 To install the latest beta version (i.e. `latest-beta`) of the 1Password CLI:
 
 ```yaml
 - name: Install 1Password CLI
-  uses: 1Password/install-cli@v1
+  uses: 1password/install-cli-action@v1
   with:
     version: latest-beta
 ```
@@ -34,7 +34,7 @@ To install a specific version of the 1Password CLI:
 
 ```yaml
 - name: Install 1Password CLI
-  uses: 1Password/install-cli@v1
+  uses: 1password/install-cli-action@v1
   with:
     version: 2.18.0
 ```
