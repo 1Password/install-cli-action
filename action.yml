@@ -1,4 +1,4 @@
-name: Install 1Password CLI
+name: 1Password CLI
 description: Install 1Password CLI in your pipeline
 author: 1Password
 branding:
