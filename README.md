@@ -1,18 +1,19 @@
 <!-- Image sourced from https://blog.1password.com/1password-cli-2_0/ -->
 <img alt="" role="img" src="https://blog.1password.com/posts/2022/1password-cli-2.0/header.png"/>
 
-<header style="text-align: center;">
-	<h1 style="margin-top: 20px; border-bottom: none;">Install 1Password CLI GitHub Action</h1>
+<div align="center">
+	<h1>Install 1Password CLI GitHub Action</h1>
 	<p>Install the <a href="https://developer.1password.com/docs/cli">1Password CLI</a> to access and manage your 1Password items in your GitHub Action runner.</p>
 	<a href="#✨-quickstart">
 		<img alt="Get started" src="https://user-images.githubusercontent.com/45081667/226940040-16d3684b-60f4-4d95-adb2-5757a8f1bc15.png" height="37"/>
 	</a>
-</header>
+</div>
+
+---
 
 # ✨ Quickstart
 
-To install the latest version of the 1Password CLI:
-<br>
+To install the latest version of the 1Password CLI: \
 (**Note:** `latest` version is installed by default, so you don't need to specify a version.)
 
 ```yaml
@@ -40,7 +41,7 @@ To install a specific version of the 1Password CLI:
 
 ## ⚙️ Supported Runners
 
-You can perform the action on Linux and MacOS runners. Windows is not currently supported.
+You can perform the action on Linux and macOS runners. Windows is not currently supported.
 
 ## 💙 Community & Support
 

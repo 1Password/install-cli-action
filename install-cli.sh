@@ -9,9 +9,8 @@ get_latest_cli_version() {
     if [ "$1" == "non_beta" ]; then
         conditional_path="!/beta/"
     fi
-    # This long command parses the HTML page at "CLI_URL" and finds
-    # the latest CLI version. It will provide the latest version number
-    # based on the channel we look (stable or beta).
+    # This long command parses the HTML page at "CLI_URL" and finds the latest CLI version
+    # based on the release channel we're looking for (stable or beta).
     #
     # The ideal call (i.e. 'curl https://app-updates.agilebits.com/check/1/0/CLI2/en/2.0.0/Y -s | jq -r .version')
     # doesn't retrieve the latest CLI version on a channel basis.
@@ -51,7 +50,7 @@ install_op_cli() {
         echo "Install 1Password CLI GitHub Action isn't supported on this operating system yet: $OSTYPE."
         exit 1
     fi
-    echo "$OP_INSTALL_DIR" >>"$GITHUB_PATH"
+    echo "$OP_INSTALL_DIR" >> "$GITHUB_PATH"
 }
 
 # Main action of the script
