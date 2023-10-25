@@ -66,5 +66,4 @@ if ($env:OP_CLI_VERSION -eq "latest") {
 } else {
     $OP_CLI_VERSION = "v$env:OP_CLI_VERSION"
 }
-$OP_CLI_VERSION
-#Install-OPCLI -OP_CLI_VERSION $OP_CLI_VERSION
+Install-OPCLI -OP_CLI_VERSION $OP_CLI_VERSION
