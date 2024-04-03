@@ -7,14 +7,14 @@ Thank you for your interest in contributing to the 1Password install-cli-action 
 After following the steps below for signing commits, you can test against your PR with these steps:
 
 1. Create or use an existing repo to run the `install-cli` GitHub Action
-2. In a workflow yaml file that uses the GitHub Action, modify the `uses: 1Password/load-secrets-action` line to be
+2. In a workflow yaml file that uses the GitHub Action, modify the `uses: 1Password/install-cli-action` line to be
 
    ```
-   uses: 1Password/load-secrets-action@<branch-name>
+   uses: 1Password/install-cli-action@<branch-name>
 
    # OR
 
-   uses: 1Password/load-secrets-action@<commit-hash>
+   uses: 1Password/install-cli-action@<commit-hash>
    ```
 
 3. Trigger the action, which now includes your changes
