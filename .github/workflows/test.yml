@@ -6,19 +6,24 @@ jobs:
     name: "Test getting latest CLI stable version"
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - name: Install 1Password CLI
         uses: ./ # 1password/install-cli-action@<version>
       - name: Check CLI version
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: ./test/assert-version.sh latest
+      - name: Check CLI version
+        if: matrix.os == 'windows-latest'
+        run: .\test\assert-version.ps1 latest
+        shell: pwsh
   use-latest-beta-version:
     name: "Test getting latest CLI beta version"
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -27,12 +32,17 @@ jobs:
         with:
           version: latest-beta
       - name: Check CLI version
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: ./test/assert-version.sh latest-beta
+      - name: Check CLI version
+        if: matrix.os == 'windows-latest'
+        run: .\test\assert-version.ps1 latest-beta
+        shell: pwsh
   use-specific-version:
     name: "Test getting a specific CLI version"
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -41,12 +51,17 @@ jobs:
         with:
           version: 2.18.0
       - name: Check CLI version
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: ./test/assert-version.sh 2.18.0
+      - name: Check CLI version
+        if: matrix.os == 'windows-latest'
+        run: .\test\assert-version.ps1 2.18.0
+        shell: pwsh
   use-specific-beta-version:
     name: "Test getting a specific CLI beta version"
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -55,4 +70,9 @@ jobs:
         with:
           version: 2.19.0-beta.01
       - name: Check CLI version
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: ./test/assert-version.sh 2.19.0-beta.01
+      - name: Check CLI version
+        if: matrix.os == 'windows-latest'
+        run: .\test\assert-version.ps1 2.19.0-beta.01
+        shell: pwsh

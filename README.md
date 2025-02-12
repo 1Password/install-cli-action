@@ -41,7 +41,7 @@ To install a specific version of the 1Password CLI:
 
 ## ⚙️ Supported Runners
 
-You can perform the action on Linux and macOS runners. Windows is not currently supported.
+You can perform the action on Linux, macOS and Windows runners.
 
 ## 💙 Community & Support
 
@@ -53,4 +53,6 @@ You can perform the action on Linux and macOS runners. Windows is not currently 
 
 1Password requests you practice responsible disclosure if you discover a vulnerability.
 
-Please file requests by sending an email to bugbounty@agilebits.com.
+Please file requests via [**BugCrowd**](https://bugcrowd.com/agilebits).
+
+For information about security practices, please visit our [Security homepage](https://bugcrowd.com/agilebits).

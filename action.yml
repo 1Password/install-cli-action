@@ -12,7 +12,14 @@ runs:
   using: composite
   steps:
     - shell: bash
+      if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
       env:
         OP_CLI_VERSION: ${{ inputs.version }}
       run: |
         ${{ github.action_path }}/install-cli.sh
+    - shell: pwsh
+      if: ${{ runner.os == 'Windows' }}
+      env:
+        OP_CLI_VERSION: ${{ inputs.version }}
+      run: |
+        ${{ github.action_path }}\install-cli.ps1
