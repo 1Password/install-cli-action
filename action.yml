@@ -9,10 +9,5 @@ inputs:
     description: Specify which 1Password CLI version to install. Defaults to "latest".
     default: "latest"
 runs:
-  using: composite
-  steps:
-    - shell: bash
-      env:
-        OP_CLI_VERSION: ${{ inputs.version }}
-      run: |
-        ${{ github.action_path }}/install-cli.sh
+  using: "node20"
+  main: "dist/index.js"
