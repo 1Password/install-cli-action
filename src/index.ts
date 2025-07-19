@@ -1,5 +1,6 @@
 import * as https from "https";
 import * as core from "@actions/core";
+import * as cheerio from "cheerio";
 import {
 	type Installer,
 	RunnerOS,
@@ -8,7 +9,7 @@ import {
 	WindowsInstaller,
 } from "./cli-installer";
 
-enum VersionType {
+export enum VersionType {
 	Latest = "latest",
 	LatestBeta = "latest-beta",
 }
@@ -17,42 +18,54 @@ enum VersionType {
 const isValidVersionType = (versionType: string): boolean =>
 	Object.values(VersionType).some((v) => v === versionType);
 
-// Returns the latest version of the 1Password CLI based on the specified channel.
-const getLatestVersion = (channel: VersionType): Promise<string> => {
-	core.debug(`Getting ${channel} version`);
-	const CLI_URL = "https://app-updates.agilebits.com/product_history/CLI2";
+// Loads the HTML content from the 1Password CLI product history page.
+export const loadHtml = (): Promise<string> => {
 	return new Promise((resolve, reject) => {
 		https
-			.get(CLI_URL, (res) => {
+			.get("https://app-updates.agilebits.com/product_history/CLI2", (res) => {
 				let data = "";
 				res.on("data", (chunk) => (data += chunk));
 				res.on("end", () => {
-					// Use regex to find all <h3>...</h3> with optional whitespace
-					const matches = [
-						...data.matchAll(/<h3[^>]*>\s*v?([\d.]+(?:-beta\d+)?)\s*<\/h3>/g),
-					];
-					const versions = matches
-						.map((match) => match[1]?.trim())
-						.filter((ver) => {
-							core.debug("Found version: " + ver);
-							if (channel === VersionType.Latest) {
-								return !ver?.includes("-beta");
-							} else if (channel === VersionType.LatestBeta) {
-								return ver?.includes("-beta");
-							}
-							return false;
-						});
-					if (versions.length === 0) {
-						return reject(new Error("No CLI versions found."));
-					}
-					resolve(`v${versions[0]}`);
+					core.debug("HTML loaded successfully");
+					resolve(data)
 				});
 			})
 			.on("error", (e) => {
-				core.error(`Failed to get version of the 1Password CLI: ${e.message}`);
+				core.error(`Failed to load HTML: ${e.message}`);
 				reject();
 			});
 	});
+};
+
+// Returns the latest version of the 1Password CLI based on the specified channel.
+export const getLatestVersion = async (channel: VersionType): Promise<string> => {
+	core.debug(`Getting ${channel} version`);
+	const html = await loadHtml();
+	const $ = cheerio.load(html);
+	const versions: string[] = [];
+	$("h3").each((_, el) => {
+		const text = $(el).text().trim();
+		const match = text.match(/^([\d.]+(?:-beta\d+)?)/);
+		if (match) {
+			const version = match[1];
+			if (!version) {
+				return
+			}
+			if (
+				(channel === VersionType.Latest && !version.includes("-beta")) ||
+				(channel === VersionType.LatestBeta && version.includes("-beta"))
+			) {
+				versions.push(version);
+			}
+		}
+	});
+
+	if (versions.length === 0) {
+		core.error(`No ${channel} versions found`);
+		throw new Error(`No ${channel} versions found`);
+	}
+
+	return versions[0]!;
 };
 
 async function run(): Promise<void> {

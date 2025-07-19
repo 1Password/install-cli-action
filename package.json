@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "Install 1Password CLI into your GitHub Actions jobs",
 	"main": "dist/index.js",
+	"type": "module",
 	"scripts": {
 		"build": "ncc build ./src/index.ts",
 		"format": "prettier --ignore-path ./config/.prettierignore",
@@ -36,7 +37,8 @@
 	"homepage": "https://github.com/1Password/install-cli-action#readme",
 	"dependencies": {
 		"@actions/core": "^1.11.1",
-		"@actions/tool-cache": "^2.0.2"
+		"@actions/tool-cache": "^2.0.2",
+		"cheerio": "^1.1.0"
 	},
 	"devDependencies": {
 		"@1password/eslint-config": "^8.1.0",
