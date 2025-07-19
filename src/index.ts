@@ -19,6 +19,7 @@ const isValidVersionType = (versionType: string): boolean =>
 
 // Returns the latest version of the 1Password CLI based on the specified channel.
 const getLatestVersion = (channel: VersionType): Promise<string> => {
+	core.debug(`Getting ${channel} version`);
 	const CLI_URL = "https://app-updates.agilebits.com/product_history/CLI2";
 	return new Promise((resolve, reject) => {
 		https
@@ -33,6 +34,7 @@ const getLatestVersion = (channel: VersionType): Promise<string> => {
 					const versions = matches
 						.map((match) => match[1]?.trim())
 						.filter((ver) => {
+							core.debug("Found version: " + ver);
 							if (channel === VersionType.Latest) {
 								return !ver?.includes("-beta");
 							} else if (channel === VersionType.LatestBeta) {
@@ -46,7 +48,10 @@ const getLatestVersion = (channel: VersionType): Promise<string> => {
 					resolve(`v${versions[0]}`);
 				});
 			})
-			.on("error", reject);
+			.on("error", (e) => {
+				core.error(`Failed to get version of the 1Password CLI: ${e.message}`);
+				reject();
+			});
 	});
 };
 
