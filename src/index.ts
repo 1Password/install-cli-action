@@ -72,7 +72,7 @@ async function run(): Promise<void> {
 	try {
 		const versionType = core.getInput("version") as VersionType;
 		// validate the version input. Should be one of the VersionTypes.
-		if (isValidVersionType(versionType)) {
+		if (!isValidVersionType(versionType)) {
 			core.setFailed(
 				`Invalid version input: ${versionType}. Valid options are: ${Object.values(VersionType).join(", ")}. Defaulting to 'latest'.`,
 			);
