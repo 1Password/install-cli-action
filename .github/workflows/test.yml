@@ -2,6 +2,17 @@ on: push
 name: Test installation
 
 jobs:
+  jest-tests:
+    name: "Run Jest tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@vzt/windows-support # 1password/install-cli-action@<version>
+      - name: Install dependencies
+        run: npm install
+      - name: Run Jest tests
+        run: npm test
   use-latest-version:
     name: "Test getting latest CLI stable version"
     strategy:
