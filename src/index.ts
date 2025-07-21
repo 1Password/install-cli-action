@@ -31,6 +31,7 @@ async function run(): Promise<void> {
 
 		await installer.installCli();
 	} catch (error: any) {
+		console.error("error:", error);
 		core.setFailed(error.message);
 	}
 }

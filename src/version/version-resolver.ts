@@ -1,4 +1,4 @@
-import core from "@actions/core";
+import * as core from "@actions/core";
 import { validateVersion } from "./validate";
 import { getLatestVersion } from "./helper";
 import { ReleaseChannel } from "./constants";
@@ -16,6 +16,7 @@ export class VersionResolver {
 	}
 
 	async resolve(): Promise<void> {
+		core.info(`Resolving version: ${this.version}`);
 		if (!this.version) {
 			core.error("Version is not provided");
 			throw new Error("Version is not provided");
@@ -35,6 +36,8 @@ export class VersionResolver {
 	}
 
 	private validate(version: string) {
+		core.info(`Validating version number: '${version}'`);
 		validateVersion(version);
+		core.info(`Version number '${version}' is valid`);
 	}
 }

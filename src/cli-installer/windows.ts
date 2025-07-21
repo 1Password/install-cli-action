@@ -1,6 +1,5 @@
 import type { Installer } from "./index";
 import { CliInstaller } from "./cli-installer";
-import * as core from "@actions/core";
 
 export class WindowsInstaller extends CliInstaller implements Installer {
 	private readonly arch: string;
@@ -14,7 +13,6 @@ export class WindowsInstaller extends CliInstaller implements Installer {
 
 	async installCli(): Promise<void> {
 		const downloadUrl = this.downloadUrl();
-		core.info(`Downloading 1Password CLI ${this.version} from ${downloadUrl}`);
 		await super.install(downloadUrl);
 	}
 

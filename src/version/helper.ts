@@ -12,7 +12,7 @@ export const loadHtml = (): Promise<string> => {
 				let data = "";
 				res.on("data", (chunk) => (data += chunk));
 				res.on("end", () => {
-					core.debug("HTML loaded successfully");
+					core.info("HTML loaded successfully");
 					resolve(data);
 				});
 			})
@@ -41,14 +41,14 @@ const findVersions = ($: cheerio.CheerioAPI, query: string): string[] => {
 	return versions;
 };
 
-export const normalizeBetaForSemver = (version: string): string =>
+export const normalizeForSemver = (version: string): string =>
 	version.replace(/-beta\.0*(\d+)/, "-beta.$1");
 
 // Returns the latest version of the 1Password CLI based on the specified channel.
 export const getLatestVersion = async (
 	versionType: ReleaseChannel,
 ): Promise<string> => {
-	core.debug(`Getting ${versionType} version`);
+	core.info(`Getting ${versionType} version number`);
 	const html = await loadHtml();
 	const $ = cheerio.load(html);
 	const versions =
@@ -63,8 +63,8 @@ export const getLatestVersion = async (
 
 	// Sort versions in descending order
 	versions.sort((a: string, b: string): number => {
-		const aNorm = new semver.SemVer(normalizeBetaForSemver(a));
-		const bNorm = new semver.SemVer(normalizeBetaForSemver(b));
+		const aNorm = new semver.SemVer(normalizeForSemver(a));
+		const bNorm = new semver.SemVer(normalizeForSemver(b));
 		return semver.rcompare(aNorm, bNorm);
 	});
 
