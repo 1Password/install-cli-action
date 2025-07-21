@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install 1Password CLI
-        uses: ./ # 1password/install-cli-action@<version>
+        uses: 1password/install-cli-action@vzt/windows-support # 1password/install-cli-action@<version>
       - name: Check CLI version
         run: ./test/assert-version.sh latest
   use-latest-beta-version:
@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install 1Password CLI
-        uses: ./ # 1password/install-cli-action@<version>
+        uses: 1password/install-cli-action@vzt/windows-support # 1password/install-cli-action@<version>
         with:
           version: latest-beta
       - name: Check CLI version
@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install 1Password CLI
-        uses: ./ # 1password/install-cli-action@<version>
+        uses: 1password/install-cli-action@vzt/windows-support # 1password/install-cli-action@<version>
         with:
           version: 2.18.0
       - name: Check CLI version
@@ -51,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install 1Password CLI
-        uses: ./ # 1password/install-cli-action@<version>
+        uses: 1password/install-cli-action@vzt/windows-support # 1password/install-cli-action@<version>
         with:
           version: 2.19.0-beta.01
       - name: Check CLI version
