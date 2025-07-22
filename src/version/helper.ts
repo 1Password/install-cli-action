@@ -44,6 +44,9 @@ const findVersions = ($: cheerio.CheerioAPI, query: string): string[] => {
 export const normalizeForSemver = (version: string): string =>
 	version.replace(/-beta\.0*(\d+)/, "-beta.$1");
 
+// TODO: Use `GET https://app-updates.agilebits.com/latest` endpoint to get the latest version.
+// TODO: Use `CLI2` property from response object, as soon as it is available.
+// TODO: will be tackled in https://github.com/1Password/install-cli-action/issues/18
 // Returns the latest version of the 1Password CLI based on the specified channel.
 export const getLatestVersion = async (
 	versionType: ReleaseChannel,
