@@ -1,4 +1,5 @@
 import semver from "semver";
+
 import { ReleaseChannel } from "./constants";
 
 // Validates if the provided version type is a valid enum value or a valid semver version.

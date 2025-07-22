@@ -1,9 +1,10 @@
-import { VersionResolver } from "./version-resolver";
-import { ReleaseChannel } from "./constants";
 import { expect } from "@jest/globals";
 
+import { ReleaseChannel } from "./constants";
+import { VersionResolver } from "./version-resolver";
+
 describe("VersionResolver", () => {
-	test("should throw error when invalid version provided", async () => {
+	test("should throw error when invalid version provided", () => {
 		expect(() => new VersionResolver("vv")).toThrow();
 	});
 
@@ -11,11 +12,11 @@ describe("VersionResolver", () => {
 		expect(() => new VersionResolver("")).toThrow();
 	});
 
-	test("should throw error for major version only", async () => {
+	test("should throw error for major version only", () => {
 		expect(() => new VersionResolver("1")).toThrow();
 	});
 
-	test("should throw error for major and minor version only", async () => {
+	test("should throw error for major and minor version only", () => {
 		expect(() => new VersionResolver("1.0")).toThrow();
 	});
 

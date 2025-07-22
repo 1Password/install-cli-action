@@ -1,5 +1,6 @@
+import { describe, expect, it } from "@jest/globals";
+
 import { validateVersion } from "./validate";
-import { describe, it, expect } from "@jest/globals";
 
 describe("validateVersion", () => {
 	it('should not throw for "latest"', () => {

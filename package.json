@@ -38,7 +38,7 @@
 	"dependencies": {
 		"@actions/core": "^1.11.1",
 		"@actions/tool-cache": "^2.0.2",
-		"cheerio": "^1.1.0",
+		"eslint": "^9.31.0",
 		"semver": "^7.7.2"
 	},
 	"devDependencies": {
@@ -53,15 +53,6 @@
 		"lint-staged": "^16.1.2",
 		"ts-jest": "^29.4.0",
 		"typescript": "^5.8.3"
-	},
-	"eslintConfig": {
-		"extends": "@1password/eslint-config",
-		"ignorePatterns": [
-			"coverage/"
-		],
-		"parserOptions": {
-			"project": "./tsconfig.json"
-		}
 	},
 	"prettier": "@1password/prettier-config"
 }

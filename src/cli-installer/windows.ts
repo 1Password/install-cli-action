@@ -1,17 +1,17 @@
-import type { Installer } from "./index";
 import { CliInstaller } from "./cli-installer";
+import type { Installer } from "./index";
 
 export class WindowsInstaller extends CliInstaller implements Installer {
 	private readonly arch: string;
 	private readonly version: string;
 
-	constructor(version: string) {
+	public constructor(version: string) {
 		super();
 		this.version = version;
 		this.arch = "amd64"; // GitHub-hosted Windows runners (like windows-latest, windows-2022, windows-2019) are all 64-bit Windows Server VMs.
 	}
 
-	async installCli(): Promise<void> {
+	public async installCli(): Promise<void> {
 		const downloadUrl = this.downloadUrl();
 		await super.install(downloadUrl);
 	}

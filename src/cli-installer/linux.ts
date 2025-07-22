@@ -1,17 +1,17 @@
-import { type Installer, RunnerArch } from "./index";
 import { CliInstaller } from "./cli-installer";
+import { type Installer, RunnerArch } from "./index";
 
 export class LinuxInstaller extends CliInstaller implements Installer {
 	private readonly arch: string;
 	private readonly version: string;
 
-	constructor(version: string) {
+	public constructor(version: string) {
 		super();
 		this.version = version;
 		this.arch = this.getArch();
 	}
 
-	async installCli(): Promise<void> {
+	public async installCli(): Promise<void> {
 		const downloadUrl = this.downloadUrl();
 		await super.install(downloadUrl);
 	}

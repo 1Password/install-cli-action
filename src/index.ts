@@ -1,14 +1,18 @@
 import * as core from "@actions/core";
+
 import {
 	type Installer,
-	RunnerOS,
 	LinuxInstaller,
-	MacOSInstaller,
+	MacOsInstaller,
+	RunnerOS,
 	WindowsInstaller,
 } from "./cli-installer";
 import { VersionResolver } from "./version";
 
-async function run(): Promise<void> {
+/**
+ * Entry point for the GitHub Action.
+ */
+const run = async (): Promise<void> => {
 	try {
 		const versionResolver = new VersionResolver(core.getInput("version"));
 		await versionResolver.resolve();
@@ -19,7 +23,7 @@ async function run(): Promise<void> {
 				installer = new LinuxInstaller(versionResolver.get());
 				break;
 			case RunnerOS.MacOS:
-				installer = new MacOSInstaller(versionResolver.get());
+				installer = new MacOsInstaller(versionResolver.get());
 				break;
 			case RunnerOS.Windows:
 				installer = new WindowsInstaller(versionResolver.get());
@@ -30,10 +34,15 @@ async function run(): Promise<void> {
 		}
 
 		await installer.installCli();
-	} catch (error: any) {
-		console.error("error:", error);
-		core.setFailed(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.error("error:", error);
+			core.setFailed(error.message);
+		} else {
+			console.error("Unknown error:", error);
+			core.setFailed("Unknown error occurred");
+		}
 	}
-}
-
+};
+// eslint-disable-next-line
 run();
