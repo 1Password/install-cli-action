@@ -41,7 +41,7 @@ To install a specific version of the 1Password CLI:
 
 ## ⚙️ Supported Runners
 
-You can perform the action on Linux and macOS runners. Windows is not currently supported.
+You can perform the action on Linux, macOS, and Windows runners.
 
 ## 💙 Community & Support
 
