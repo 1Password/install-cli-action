@@ -1,6 +1,5 @@
 import semver from "semver";
 import { ReleaseChannel } from "./constants";
-import { normalizeForSemver } from "./helper";
 
 // Validates if the provided version type is a valid enum value or a valid semver version.
 export const validateVersion = (input: string): void => {
@@ -13,7 +12,7 @@ export const validateVersion = (input: string): void => {
 	// That's why we need to normalize them before validating.
 	// Accepts valid semver versions like "2.18.0" or beta-releases like "2.19.0-beta.01"
 	// or versions with 'v' prefix like "v2.19.0"
-	const normalized = normalizeForSemver(input);
+	const normalized = input.replace(/-beta\.0*(\d+)/, "-beta.$1");
 	const normInput = new semver.SemVer(normalized);
 	if (semver.valid(normInput)) {
 		return;

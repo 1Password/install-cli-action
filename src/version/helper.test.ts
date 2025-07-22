@@ -1,59 +1,66 @@
 import { getLatestVersion } from "./helper";
-import * as helper from "./helper";
 import { ReleaseChannel } from "./constants";
 
 describe("getLatestVersion", () => {
-	afterEach(() => {
+	beforeEach(() => {
 		jest.restoreAllMocks();
 	});
 
-	it("returns latest stable version", async () => {
-		jest.spyOn(helper, "loadHtml").mockResolvedValue(`
-      <html><body>
-        <article><h3> 2.31.1 </h3><span>build number and release date</span></article>
-        <article><h3> 2.32.1 </h3><span>build number and release date</span></article>
-        <article><h3> 2.33.2 </h3><span>build number and release date</span></article>
-        <article><h3>2.33.1 </h3><span>build number and release date</span></article>
-      </body></html>
-    `);
+	it("should return latest stable version", async () => {
+		const mockResponse = {
+			CLI2: {
+				release: { version: "2.31.0" },
+				beta: { version: "2.32.0-beta.01" },
+			},
+		};
+
+		jest.spyOn(global, "fetch").mockResolvedValueOnce({
+			json: async () => mockResponse,
+		} as Response);
+
 		const version = await getLatestVersion(ReleaseChannel.Stable);
-		expect(version).toBe("2.33.2");
+		expect(version).toBe("2.31.0");
 	});
 
-	it("returns latest beta version", async () => {
-		jest.spyOn(helper, "loadHtml").mockResolvedValue(`
-      <html><body>
-        <article class="beta"><h3> 1.32.0-beta.01 <span>build number and release date</span></h3></article>
-        <article class="beta"><h3>2.32.0-beta.01 <span>build number and release date</span></h3></article>
-        <article class="beta"><h3>3.32.0-beta.02<span>build number and release date</span></h3></article>
-        <article class="beta"><h3>3.32.0-beta.01 <span>build number and release date</span></h3></article>
-      </body></html>
-    `);
+	it("should return latest beta version", async () => {
+		const mockResponse = {
+			CLI2: {
+				release: { version: "2.31.0" },
+				beta: { version: "2.32.0-beta.01" },
+			},
+		};
+
+		jest.spyOn(global, "fetch").mockResolvedValueOnce({
+			json: async () => mockResponse,
+		} as Response);
+
 		const version = await getLatestVersion(ReleaseChannel.Beta);
-		expect(version).toBe("3.32.0-beta.02");
+		expect(version).toBe("2.32.0-beta.01");
 	});
 
-	it("throws error when no versions found", async () => {
-		jest.spyOn(helper, "loadHtml").mockResolvedValue("<html></html>");
-		await expect(getLatestVersion(ReleaseChannel.Stable)).rejects.toThrow(
-			`No ${ReleaseChannel.Stable} versions found`,
-		);
+	it("should throw if no CLI2 field", async () => {
+		jest.spyOn(global, "fetch").mockResolvedValueOnce({
+			json: async () => ({}),
+		} as Response);
+
+		await expect(
+			getLatestVersion(ReleaseChannel.Stable),
+		).rejects.toThrow(`No ${ReleaseChannel.Stable} versions found`);
 	});
 
-	it("throws error when HTML is invalid", async () => {
-		jest
-			.spyOn(helper, "loadHtml")
-			.mockResolvedValue("<html><article></article></html>");
-		await expect(getLatestVersion(ReleaseChannel.Stable)).rejects.toThrow(
-			`No ${ReleaseChannel.Stable} versions found`,
-		);
-	});
+	it("should throw if no stable version found", async () => {
+		const mockResponse = {
+			CLI2: {
+				beta: { version: "2.32.0-beta.01" },
+			},
+		};
 
-	it("calls loadHtml once", async () => {
-		const spy = jest.spyOn(helper, "loadHtml").mockResolvedValue(`
-      <article><h3>2.31.1</h3></article>
-    `);
-		await getLatestVersion(ReleaseChannel.Stable);
-		expect(spy).toHaveBeenCalledTimes(1);
+		jest.spyOn(global, "fetch").mockResolvedValueOnce({
+			json: async () => mockResponse,
+		} as Response);
+
+		await expect(
+			getLatestVersion(ReleaseChannel.Stable),
+		).rejects.toThrow(`No ${ReleaseChannel.Stable} versions found`);
 	});
 });
