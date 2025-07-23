@@ -8,7 +8,7 @@ export class WindowsInstaller extends CliInstaller implements Installer {
 	public constructor(version: string) {
 		super();
 		this.version = version;
-		this.arch = "amd64"; // GitHub-hosted Windows runners (like windows-latest, windows-2022, windows-2019) are all 64-bit Windows Server VMs.
+		this.arch = super.getArch();
 	}
 
 	public async installCli(): Promise<void> {

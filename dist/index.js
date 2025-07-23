@@ -32657,11 +32657,23 @@ var __webpack_exports__ = {};
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(7484);
+// EXTERNAL MODULE: external "os"
+var external_os_ = __nccwpck_require__(857);
+var external_os_default = /*#__PURE__*/__nccwpck_require__.n(external_os_);
 // EXTERNAL MODULE: ./node_modules/@actions/tool-cache/lib/tool-cache.js
 var tool_cache = __nccwpck_require__(3472);
 ;// CONCATENATED MODULE: ./src/cli-installer/cli-installer.ts
 
 
+
+const archMap = {
+    ia32: "386",
+    x32: "386",
+    x86: "386",
+    x64: "amd64",
+    arm: "arm",
+    arm64: "arm64",
+};
 class CliInstaller {
     async install(downloadUrl) {
         console.info(`Downloading 1Password CLI from: ${downloadUrl}`);
@@ -32670,6 +32682,14 @@ class CliInstaller {
         const extractedPath = await tool_cache.extractZip(downloadPath);
         core.addPath(extractedPath);
         core.info("1Password CLI installed");
+    }
+    // possible values for GitHub hosted runners (process.env.RUNNER_ARCH) can be found here: https://docs.github.com/en/actions/reference/variables-reference#default-environment-variables
+    getArch() {
+        const arch = archMap[process.env.RUNNER_ARCH?.toLowerCase() || external_os_default().arch()];
+        if (!arch) {
+            throw new Error("Unsupported architecture");
+        }
+        return arch;
     }
 }
 
@@ -32682,7 +32702,7 @@ class LinuxInstaller extends CliInstaller {
     constructor(version) {
         super();
         this.version = version;
-        this.arch = this.getArch();
+        this.arch = super.getArch();
     }
     async installCli() {
         const downloadUrl = this.downloadUrl();
@@ -32690,21 +32710,6 @@ class LinuxInstaller extends CliInstaller {
     }
     downloadUrl() {
         return `https://cache.agilebits.com/dist/1P/op2/pkg/${this.version}/op_linux_${this.arch}_${this.version}.zip`;
-    }
-    // return cpu architecture for the current
-    getArch() {
-        switch (process.env.RUNNER_ARCH) {
-            case RunnerArch.X86:
-                return "386";
-            case RunnerArch.X64:
-                return "amd64";
-            case RunnerArch.ARM:
-                return "arm";
-            case RunnerArch.ARM64:
-                return "arm64";
-            default:
-                throw new Error(`Unsupported RUNNER_ARCH value for linux: ${process.env.RUNNER_ARCH}`);
-        }
     }
 }
 
@@ -32766,7 +32771,7 @@ class WindowsInstaller extends CliInstaller {
     constructor(version) {
         super();
         this.version = version;
-        this.arch = "amd64"; // GitHub-hosted Windows runners (like windows-latest, windows-2022, windows-2019) are all 64-bit Windows Server VMs.
+        this.arch = super.getArch();
     }
     async installCli() {
         const downloadUrl = this.downloadUrl();
@@ -32782,15 +32787,6 @@ class WindowsInstaller extends CliInstaller {
 
 
 /* eslint-disable @typescript-eslint/naming-convention */
-// Defines the architecture of the runner executing the job.
-// Look `RUNNER_ARCH` for possible values (https://docs.github.com/en/actions/reference/variables-reference).
-var RunnerArch;
-(function (RunnerArch) {
-    RunnerArch["X64"] = "X64";
-    RunnerArch["X86"] = "X86";
-    RunnerArch["ARM"] = "ARM";
-    RunnerArch["ARM64"] = "ARM64";
-})(RunnerArch || (RunnerArch = {}));
 // RunnerOS defines the operating system of the runner executing the job.
 // Look `RUNNER_OS` for possible values (https://docs.github.com/en/actions/reference/variables-reference).
 var RunnerOS;
