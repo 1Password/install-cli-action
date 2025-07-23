@@ -27,6 +27,10 @@ describe("validateVersion", () => {
 		expect(() => validateVersion("2.19.0-beta.01")).not.toThrow();
 	});
 
+	it('should not throw for valid beta "2.19.3-beta.12"', () => {
+		expect(() => validateVersion("2.19.3-beta.12")).not.toThrow();
+	});
+
 	it('should not throw for coerced version "v2.19.0"', () => {
 		expect(() => validateVersion("v2.19.0")).not.toThrow();
 	});
