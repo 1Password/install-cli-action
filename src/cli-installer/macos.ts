@@ -6,27 +6,25 @@ import { promisify } from "util";
 import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
 
-import { CliInstaller } from "./cli-installer";
+import {
+	CliInstaller,
+	cliUrlBuilder,
+	type SupportedPlatform,
+} from "./cli-installer";
 import { type Installer } from "./index";
 
 const execAsync = promisify(exec);
 
 export class MacOsInstaller extends CliInstaller implements Installer {
-	private readonly version: string;
+	private readonly platform: SupportedPlatform = "darwin"; // Node.js platform identifier for macOS
 
 	public constructor(version: string) {
-		super();
-		this.version = version;
+		super(version);
 	}
 
 	public async installCli(): Promise<void> {
-		const downloadUrl = this.downloadUrl();
-		core.info(`Downloading 1Password CLI ${this.version} from ${downloadUrl}`);
-		await this.install(downloadUrl);
-	}
-
-	private downloadUrl(): string {
-		return `https://cache.agilebits.com/dist/1P/op2/pkg/${this.version}/op_apple_universal_${this.version}.pkg`;
+		const urlBuilder = cliUrlBuilder[this.platform];
+		await this.install(urlBuilder(this.version));
 	}
 
 	// @actions/tool-cache package does not support .pkg files, so we need to handle the installation manually
