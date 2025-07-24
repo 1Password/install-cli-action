@@ -1,0 +1,58 @@
+{
+	"name": "install-cli-action",
+	"version": "1.0.0",
+	"description": "Install 1Password CLI into your GitHub Actions jobs",
+	"main": "dist/index.js",
+	"type": "module",
+	"scripts": {
+		"build": "ncc build ./src/index.ts",
+		"format": "prettier",
+		"format:check": "npm run format -- --check ./",
+		"format:write": "npm run format -- --write ./",
+		"lint": "eslint ./",
+		"lint:fix": "npm run lint -- --fix",
+		"prepare": "husky install",
+		"test": "jest",
+		"test:clearcache": "jest --clearCache",
+		"test:coverage": "npm run test -- --coverage",
+		"test:watch": "npm run test -- --watch",
+		"typecheck": "tsc",
+		"validate": "npm run format:check && npm run lint && npm run test:coverage && npm run typecheck && npm run build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/1Password/install-cli-action.git"
+	},
+	"keywords": [
+		"actions",
+		"1password",
+		"install 1password cli",
+		"cli"
+	],
+	"author": "1Password",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/1Password/install-cli-action/issues"
+	},
+	"homepage": "https://github.com/1Password/install-cli-action#readme",
+	"dependencies": {
+		"@actions/core": "^1.11.1",
+		"@actions/tool-cache": "^2.0.2",
+		"eslint": "^9.31.0",
+		"semver": "^7.7.2"
+	},
+	"devDependencies": {
+		"@1password/eslint-config": "^8.1.0",
+		"@1password/prettier-config": "^1.2.0",
+		"@types/jest": "^30.0.0",
+		"@types/node": "^24.0.14",
+		"@types/semver": "^7.7.0",
+		"@vercel/ncc": "^0.38.3",
+		"husky": "^9.1.7",
+		"jest": "^30.0.4",
+		"lint-staged": "^16.1.2",
+		"ts-jest": "^29.4.0",
+		"typescript": "^5.8.3"
+	},
+	"prettier": "@1password/prettier-config"
+}
