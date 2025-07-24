@@ -32666,26 +32666,36 @@ var tool_cache = __nccwpck_require__(3472);
 
 
 
+// maps OS architecture names to 1Password CLI installer architecture names
 const archMap = {
     ia32: "386",
-    x32: "386",
-    x86: "386",
     x64: "amd64",
     arm: "arm",
     arm64: "arm64",
 };
+// Builds the download URL for the 1Password CLI based on the platform and version.
+const cliUrlBuilder = {
+    linux: (version, arch) => `https://cache.agilebits.com/dist/1P/op2/pkg/${version}/op_linux_${arch}_${version}.zip`,
+    darwin: (version) => `https://cache.agilebits.com/dist/1P/op2/pkg/${version}/op_apple_universal_${version}.pkg`,
+    win32: (version, arch) => `https://cache.agilebits.com/dist/1P/op2/pkg/${version}/op_windows_${arch}_${version}.zip`,
+};
 class CliInstaller {
-    async install(downloadUrl) {
-        console.info(`Downloading 1Password CLI from: ${downloadUrl}`);
-        const downloadPath = await tool_cache.downloadTool(downloadUrl);
+    version;
+    arch;
+    constructor(version) {
+        this.version = version;
+        this.arch = this.getArch();
+    }
+    async install(url) {
+        console.info(`Downloading 1Password CLI from: ${url}`);
+        const downloadPath = await tool_cache.downloadTool(url);
         console.info("Installing 1Password CLI");
         const extractedPath = await tool_cache.extractZip(downloadPath);
         core.addPath(extractedPath);
         core.info("1Password CLI installed");
     }
-    // possible values for GitHub hosted runners (process.env.RUNNER_ARCH) can be found here: https://docs.github.com/en/actions/reference/variables-reference#default-environment-variables
     getArch() {
-        const arch = archMap[process.env.RUNNER_ARCH?.toLowerCase() || external_os_default().arch()];
+        const arch = archMap[external_os_default().arch()];
         if (!arch) {
             throw new Error("Unsupported architecture");
         }
@@ -32695,21 +32705,14 @@ class CliInstaller {
 
 ;// CONCATENATED MODULE: ./src/cli-installer/linux.ts
 
-
 class LinuxInstaller extends CliInstaller {
-    arch;
-    version;
+    platform = "linux"; // Node.js platform identifier for Linux
     constructor(version) {
-        super();
-        this.version = version;
-        this.arch = super.getArch();
+        super(version);
     }
     async installCli() {
-        const downloadUrl = this.downloadUrl();
-        await super.install(downloadUrl);
-    }
-    downloadUrl() {
-        return `https://cache.agilebits.com/dist/1P/op2/pkg/${this.version}/op_linux_${this.arch}_${this.version}.zip`;
+        const urlBuilder = cliUrlBuilder[this.platform];
+        await super.install(urlBuilder(this.version, this.arch));
     }
 }
 
@@ -32732,18 +32735,13 @@ var external_util_ = __nccwpck_require__(9023);
 
 const execAsync = (0,external_util_.promisify)(external_child_process_.exec);
 class MacOsInstaller extends CliInstaller {
-    version;
+    platform = "darwin"; // Node.js platform identifier for macOS
     constructor(version) {
-        super();
-        this.version = version;
+        super(version);
     }
     async installCli() {
-        const downloadUrl = this.downloadUrl();
-        core.info(`Downloading 1Password CLI ${this.version} from ${downloadUrl}`);
-        await this.install(downloadUrl);
-    }
-    downloadUrl() {
-        return `https://cache.agilebits.com/dist/1P/op2/pkg/${this.version}/op_apple_universal_${this.version}.pkg`;
+        const urlBuilder = cliUrlBuilder[this.platform];
+        await this.install(urlBuilder(this.version));
     }
     // @actions/tool-cache package does not support .pkg files, so we need to handle the installation manually
     async install(downloadUrl) {
@@ -32766,36 +32764,37 @@ class MacOsInstaller extends CliInstaller {
 ;// CONCATENATED MODULE: ./src/cli-installer/windows.ts
 
 class WindowsInstaller extends CliInstaller {
-    arch;
-    version;
+    platform = "win32"; // Node.js platform identifier for Windows
     constructor(version) {
-        super();
-        this.version = version;
-        this.arch = super.getArch();
+        super(version);
     }
     async installCli() {
-        const downloadUrl = this.downloadUrl();
-        await super.install(downloadUrl);
-    }
-    downloadUrl() {
-        return `https://cache.agilebits.com/dist/1P/op2/pkg/${this.version}/op_windows_${this.arch}_${this.version}.zip`;
+        const urlBuilder = cliUrlBuilder[this.platform];
+        await super.install(urlBuilder(this.version, this.arch));
     }
 }
 
+;// CONCATENATED MODULE: ./src/cli-installer/installer.ts
+
+
+
+
+const newCliInstaller = (version) => {
+    const platform = external_os_default().platform();
+    switch (platform) {
+        case "linux":
+            return new LinuxInstaller(version);
+        case "darwin":
+            return new MacOsInstaller(version);
+        case "win32":
+            return new WindowsInstaller(version);
+        default:
+            throw new Error(`Unsupported platform: ${platform}`);
+    }
+};
+
 ;// CONCATENATED MODULE: ./src/cli-installer/index.ts
 
-
-
-/* eslint-disable @typescript-eslint/naming-convention */
-// RunnerOS defines the operating system of the runner executing the job.
-// Look `RUNNER_OS` for possible values (https://docs.github.com/en/actions/reference/variables-reference).
-var RunnerOS;
-(function (RunnerOS) {
-    RunnerOS["Linux"] = "Linux";
-    RunnerOS["MacOS"] = "macOS";
-    RunnerOS["Windows"] = "Windows";
-})(RunnerOS || (RunnerOS = {}));
-/* eslint-enable @typescript-eslint/naming-convention */
 
 ;// CONCATENATED MODULE: ./src/version/constants.ts
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -32900,21 +32899,7 @@ const run = async () => {
     try {
         const versionResolver = new VersionResolver(core.getInput("version"));
         await versionResolver.resolve();
-        let installer;
-        switch (process.env.RUNNER_OS) {
-            case RunnerOS.Linux:
-                installer = new LinuxInstaller(versionResolver.get());
-                break;
-            case RunnerOS.MacOS:
-                installer = new MacOsInstaller(versionResolver.get());
-                break;
-            case RunnerOS.Windows:
-                installer = new WindowsInstaller(versionResolver.get());
-                break;
-            default:
-                core.setFailed(`Unsupported platform: ${process.env.RUNNER_OS}`);
-                return;
-        }
+        const installer = newCliInstaller(versionResolver.get());
         await installer.installCli();
     }
     catch (error) {

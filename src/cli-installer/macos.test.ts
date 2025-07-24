@@ -1,15 +1,25 @@
 import os from "os";
 
-import { cliUrlBuilder, type SupportedPlatform } from "./cli-installer";
+import {
+	archMap,
+	cliUrlBuilder,
+	type SupportedPlatform,
+} from "./cli-installer";
 import { MacOsInstaller } from "./macos";
+
+afterEach(() => {
+	jest.restoreAllMocks();
+});
 
 describe("MacOsInstaller", () => {
 	const version = "1.2.3";
+	const arch: NodeJS.Architecture = "x64";
 
 	it("should construct with given version and architecture", () => {
+		jest.spyOn(os, "arch").mockReturnValue(arch);
 		const installer = new MacOsInstaller(version);
 		expect(installer.version).toEqual(version);
-		expect(installer.arch).toEqual(os.arch());
+		expect(installer.arch).toEqual(archMap[arch]);
 	});
 
 	it("should call install with correct URL", async () => {

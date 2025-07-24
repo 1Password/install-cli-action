@@ -9,7 +9,7 @@ export type SupportedPlatform = Extract<
 >;
 
 // maps OS architecture names to 1Password CLI installer architecture names
-const archMap: Record<string, string> = {
+export const archMap: Record<string, string> = {
 	ia32: "386",
 	x64: "amd64",
 	arm: "arm",
@@ -26,7 +26,7 @@ export const cliUrlBuilder: Record<
 	darwin: (version) =>
 		`https://cache.agilebits.com/dist/1P/op2/pkg/${version}/op_apple_universal_${version}.pkg`,
 	win32: (version, arch) =>
-		`https://cache.agilebits.com/dist/1P/op2/pkg/${version}/op_windows_${arch}_${version}_.zip`,
+		`https://cache.agilebits.com/dist/1P/op2/pkg/${version}/op_windows_${arch}_${version}.zip`,
 };
 
 export class CliInstaller {
