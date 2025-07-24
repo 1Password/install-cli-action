@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 
-import { CliInstaller } from "./cli-installer";
+import { newCliInstaller } from "./cli-installer";
 import { VersionResolver } from "./version";
 
 /**
@@ -10,7 +10,7 @@ const run = async (): Promise<void> => {
 	try {
 		const versionResolver = new VersionResolver(core.getInput("version"));
 		await versionResolver.resolve();
-		const installer = CliInstaller.create(versionResolver.get());
+		const installer = newCliInstaller(versionResolver.get());
 		await installer.installCli();
 	} catch (error: unknown) {
 		if (error instanceof Error) {

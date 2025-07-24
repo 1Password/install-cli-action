@@ -11,7 +11,7 @@ import {
 	cliUrlBuilder,
 	type SupportedPlatform,
 } from "./cli-installer";
-import { type Installer } from "./index";
+import { type Installer } from "./installer";
 
 const execAsync = promisify(exec);
 

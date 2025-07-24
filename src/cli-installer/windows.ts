@@ -3,7 +3,7 @@ import {
 	cliUrlBuilder,
 	type SupportedPlatform,
 } from "./cli-installer";
-import type { Installer } from "./index";
+import type { Installer } from "./installer";
 
 export class WindowsInstaller extends CliInstaller implements Installer {
 	private readonly platform: SupportedPlatform = "win32"; // Node.js platform identifier for Windows

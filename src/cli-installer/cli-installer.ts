@@ -3,11 +3,6 @@ import os from "os";
 import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
 
-import { type Installer } from "./index";
-import { LinuxInstaller } from "./linux";
-import { MacOsInstaller } from "./macos";
-import { WindowsInstaller } from "./windows";
-
 export type SupportedPlatform = Extract<
 	NodeJS.Platform,
 	"linux" | "darwin" | "win32"
@@ -21,6 +16,7 @@ const archMap: Record<string, string> = {
 	arm64: "arm64",
 };
 
+// Builds the download URL for the 1Password CLI based on the platform and version.
 export const cliUrlBuilder: Record<
 	SupportedPlatform,
 	(version: string, arch?: string) => string
@@ -34,26 +30,12 @@ export const cliUrlBuilder: Record<
 };
 
 export class CliInstaller {
-	protected readonly version: string;
-	protected readonly arch: string;
+	public readonly version: string;
+	public readonly arch: string;
 
 	public constructor(version: string) {
 		this.version = version;
 		this.arch = this.getArch();
-	}
-
-	public static create(version: string): Installer {
-		const platform = os.platform();
-		switch (platform) {
-			case "linux":
-				return new LinuxInstaller(version);
-			case "darwin":
-				return new MacOsInstaller(version);
-			case "win32":
-				return new WindowsInstaller(version);
-			default:
-				throw new Error(`Unsupported platform: ${platform}`);
-		}
 	}
 
 	public async install(url: string): Promise<void> {
