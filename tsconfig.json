@@ -19,6 +19,7 @@
 		"strict": true,
 		"target": "es2022",
 		"verbatimModuleSyntax": true,
-		"isolatedModules": true
+		"isolatedModules": true,
+		"declaration": true
 	}
 }
