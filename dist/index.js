@@ -32655,6 +32655,11 @@ module.exports = parseParams
 /************************************************************************/
 var __webpack_exports__ = {};
 
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  a: () => (/* binding */ install)
+});
+
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(7484);
 // EXTERNAL MODULE: external "os"
@@ -32895,7 +32900,7 @@ class VersionResolver {
 /**
  * Entry point for the GitHub Action.
  */
-const run = async () => {
+const install = async () => {
     try {
         const versionResolver = new VersionResolver(core.getInput("version"));
         await versionResolver.resolve();
@@ -32914,5 +32919,7 @@ const run = async () => {
     }
 };
 // eslint-disable-next-line
-run();
+install();
 
+var __webpack_exports__install = __webpack_exports__.a;
+export { __webpack_exports__install as install };
