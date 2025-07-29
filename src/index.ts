@@ -22,5 +22,8 @@ export const install = async (): Promise<void> => {
 		}
 	}
 };
-// eslint-disable-next-line
-install();
+
+// Only run if this is the entry point (not when imported)
+if (require.main === module) {
+	void install();
+}
