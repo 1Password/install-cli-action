@@ -7,25 +7,25 @@
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+      desc = { enumerable: true, get() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -110,25 +110,25 @@ function escapeProperty(s) {
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+      desc = { enumerable: true, get() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -136,7 +136,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -157,11 +157,11 @@ var ExitCode;
     /**
      * A code indicating that the action was successful
      */
-    ExitCode[ExitCode["Success"] = 0] = "Success";
+    ExitCode[ExitCode.Success = 0] = "Success";
     /**
      * A code indicating that the action was a failure
      */
-    ExitCode[ExitCode["Failure"] = 1] = "Failure";
+    ExitCode[ExitCode.Failure = 1] = "Failure";
 })(ExitCode || (exports.ExitCode = ExitCode = {}));
 //-----------------------------------------------------------------------
 // Variables
@@ -171,11 +171,11 @@ var ExitCode;
  * @param name the name of the variable to set
  * @param val the value of the variable. Non-string values will be converted to a string via JSON.stringify
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 function exportVariable(name, val) {
     const convertedVal = (0, utils_1.toCommandValue)(val);
     process.env[name] = convertedVal;
-    const filePath = process.env['GITHUB_ENV'] || '';
+    const filePath = process.env.GITHUB_ENV || '';
     if (filePath) {
         return (0, file_command_1.issueFileCommand)('ENV', (0, file_command_1.prepareKeyValueMessage)(name, val));
     }
@@ -195,21 +195,20 @@ exports.setSecret = setSecret;
  * @param inputPath
  */
 function addPath(inputPath) {
-    const filePath = process.env['GITHUB_PATH'] || '';
+    const filePath = process.env.GITHUB_PATH || '';
     if (filePath) {
         (0, file_command_1.issueFileCommand)('PATH', inputPath);
     }
     else {
         (0, command_1.issueCommand)('add-path', {}, inputPath);
     }
-    process.env['PATH'] = `${inputPath}${path.delimiter}${process.env['PATH']}`;
+    process.env.PATH = `${inputPath}${path.delimiter}${process.env.PATH}`;
 }
 exports.addPath = addPath;
 /**
  * Gets the value of an input.
  * Unless trimWhitespace is set to false in InputOptions, the value is also trimmed.
  * Returns an empty string if the value is not defined.
- *
  * @param     name     name of the input to get
  * @param     options  optional. See InputOptions.
  * @returns   string
@@ -227,11 +226,9 @@ function getInput(name, options) {
 exports.getInput = getInput;
 /**
  * Gets the values of an multiline input.  Each value is also trimmed.
- *
  * @param     name     name of the input to get
  * @param     options  optional. See InputOptions.
  * @returns   string[]
- *
  */
 function getMultilineInput(name, options) {
     const inputs = getInput(name, options)
@@ -248,7 +245,6 @@ exports.getMultilineInput = getMultilineInput;
  * Support boolean input list: `true | True | TRUE | false | False | FALSE` .
  * The return value is also in boolean type.
  * ref: https://yaml.org/spec/1.2/spec.html#id2804923
- *
  * @param     name     name of the input to get
  * @param     options  optional. See InputOptions.
  * @returns   boolean
@@ -258,22 +254,21 @@ function getBooleanInput(name, options) {
     const falseValue = ['false', 'False', 'FALSE'];
     const val = getInput(name, options);
     if (trueValue.includes(val))
-        return true;
+        {return true;}
     if (falseValue.includes(val))
-        return false;
+        {return false;}
     throw new TypeError(`Input does not meet YAML 1.2 "Core Schema" specification: ${name}\n` +
         `Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
 }
 exports.getBooleanInput = getBooleanInput;
 /**
  * Sets the value of an output.
- *
  * @param     name     name of the output to set
  * @param     value    value to store. Non-string values will be converted to a string via JSON.stringify
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 function setOutput(name, value) {
-    const filePath = process.env['GITHUB_OUTPUT'] || '';
+    const filePath = process.env.GITHUB_OUTPUT || '';
     if (filePath) {
         return (0, file_command_1.issueFileCommand)('OUTPUT', (0, file_command_1.prepareKeyValueMessage)(name, value));
     }
@@ -310,7 +305,7 @@ exports.setFailed = setFailed;
  * Gets whether Actions Step Debug is on or not
  */
 function isDebug() {
-    return process.env['RUNNER_DEBUG'] === '1';
+    return process.env.RUNNER_DEBUG === '1';
 }
 exports.isDebug = isDebug;
 /**
@@ -360,7 +355,6 @@ exports.info = info;
  * Begin an output group.
  *
  * Output until the next `groupEnd` will be foldable in this group
- *
  * @param name The name of the output group
  */
 function startGroup(name) {
@@ -378,7 +372,6 @@ exports.endGroup = endGroup;
  * Wrap an asynchronous function call in a group.
  *
  * Returns the same type as the function itself.
- *
  * @param name The name of the group
  * @param fn The function to wrap in the group
  */
@@ -401,13 +394,12 @@ exports.group = group;
 //-----------------------------------------------------------------------
 /**
  * Saves state for current action, the state can only be retrieved by this action's post job execution.
- *
  * @param     name     name of the state to store
  * @param     value    value to store. Non-string values will be converted to a string via JSON.stringify
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 function saveState(name, value) {
-    const filePath = process.env['GITHUB_STATE'] || '';
+    const filePath = process.env.GITHUB_STATE || '';
     if (filePath) {
         return (0, file_command_1.issueFileCommand)('STATE', (0, file_command_1.prepareKeyValueMessage)(name, value));
     }
@@ -416,7 +408,6 @@ function saveState(name, value) {
 exports.saveState = saveState;
 /**
  * Gets the value of an state set by this action's main execution.
- *
  * @param     name     name of the state to get
  * @returns   string
  */
@@ -434,19 +425,19 @@ exports.getIDToken = getIDToken;
  * Summary exports
  */
 var summary_1 = __nccwpck_require__(1847);
-Object.defineProperty(exports, "summary", ({ enumerable: true, get: function () { return summary_1.summary; } }));
+Object.defineProperty(exports, "summary", ({ enumerable: true, get () { return summary_1.summary; } }));
 /**
  * @deprecated use core.summary
  */
 var summary_2 = __nccwpck_require__(1847);
-Object.defineProperty(exports, "markdownSummary", ({ enumerable: true, get: function () { return summary_2.markdownSummary; } }));
+Object.defineProperty(exports, "markdownSummary", ({ enumerable: true, get () { return summary_2.markdownSummary; } }));
 /**
  * Path exports
  */
 var path_utils_1 = __nccwpck_require__(1976);
-Object.defineProperty(exports, "toPosixPath", ({ enumerable: true, get: function () { return path_utils_1.toPosixPath; } }));
-Object.defineProperty(exports, "toWin32Path", ({ enumerable: true, get: function () { return path_utils_1.toWin32Path; } }));
-Object.defineProperty(exports, "toPlatformPath", ({ enumerable: true, get: function () { return path_utils_1.toPlatformPath; } }));
+Object.defineProperty(exports, "toPosixPath", ({ enumerable: true, get () { return path_utils_1.toPosixPath; } }));
+Object.defineProperty(exports, "toWin32Path", ({ enumerable: true, get () { return path_utils_1.toWin32Path; } }));
+Object.defineProperty(exports, "toPlatformPath", ({ enumerable: true, get () { return path_utils_1.toPlatformPath; } }));
 /**
  * Platform utilities exports
  */
@@ -462,32 +453,32 @@ exports.platform = __importStar(__nccwpck_require__(8968));
 
 // For internal use, subject to change.
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+      desc = { enumerable: true, get() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.prepareKeyValueMessage = exports.issueFileCommand = void 0;
 // We use any as a valid input type
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 const crypto = __importStar(__nccwpck_require__(6982));
 const fs = __importStar(__nccwpck_require__(9896));
 const os = __importStar(__nccwpck_require__(857));
@@ -533,7 +524,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -552,14 +543,14 @@ class OidcClient {
         return new http_client_1.HttpClient('actions/oidc-client', [new auth_1.BearerCredentialHandler(OidcClient.getRequestToken())], requestOptions);
     }
     static getRequestToken() {
-        const token = process.env['ACTIONS_ID_TOKEN_REQUEST_TOKEN'];
+        const token = process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
         if (!token) {
             throw new Error('Unable to get ACTIONS_ID_TOKEN_REQUEST_TOKEN env variable');
         }
         return token;
     }
     static getIDTokenUrl() {
-        const runtimeUrl = process.env['ACTIONS_ID_TOKEN_REQUEST_URL'];
+        const runtimeUrl = process.env.ACTIONS_ID_TOKEN_REQUEST_URL;
         if (!runtimeUrl) {
             throw new Error('Unable to get ACTIONS_ID_TOKEN_REQUEST_URL env variable');
         }
@@ -614,25 +605,25 @@ exports.OidcClient = OidcClient;
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+      desc = { enumerable: true, get() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -642,9 +633,8 @@ const path = __importStar(__nccwpck_require__(6928));
 /**
  * toPosixPath converts the given path to the posix form. On Windows, \\ will be
  * replaced with /.
- *
  * @param pth. Path to transform.
- * @return string Posix path.
+ * @returns string Posix path.
  */
 function toPosixPath(pth) {
     return pth.replace(/[\\]/g, '/');
@@ -653,9 +643,8 @@ exports.toPosixPath = toPosixPath;
 /**
  * toWin32Path converts the given path to the win32 form. On Linux, / will be
  * replaced with \\.
- *
  * @param pth. Path to transform.
- * @return string Win32 path.
+ * @returns string Win32 path.
  */
 function toWin32Path(pth) {
     return pth.replace(/[/]/g, '\\');
@@ -665,9 +654,8 @@ exports.toWin32Path = toWin32Path;
  * toPlatformPath converts the given path to a platform-specific path. It does
  * this by replacing instances of / and \ with the platform-specific path
  * separator.
- *
  * @param pth The path to platformize.
- * @return string The platform-specific path.
+ * @returns string The platform-specific path.
  */
 function toPlatformPath(pth) {
     return pth.replace(/[/\\]/g, path.sep);
@@ -683,25 +671,25 @@ exports.toPlatformPath = toPlatformPath;
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+      desc = { enumerable: true, get() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -709,7 +697,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -734,7 +722,7 @@ const getWindowsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
     };
 });
 const getMacOsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d;
+    var _a; var _b; var _c; var _d;
     const { stdout } = yield exec.getExecOutput('sw_vers', undefined, {
         silent: true
     });
@@ -787,7 +775,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -806,7 +794,6 @@ class Summary {
     /**
      * Finds the summary file path from the environment, rejects if env var is not found or file does not exist
      * Also checks r/w permissions.
-     *
      * @returns step summary file path
      */
     filePath() {
@@ -830,11 +817,9 @@ class Summary {
     }
     /**
      * Wraps content in an HTML tag, adding any HTML attributes
-     *
      * @param {string} tag HTML tag to wrap
      * @param {string | null} content content within the tag
      * @param {[attribute: string]: string} attrs key-value list of HTML attributes to add
-     *
      * @returns {string} content wrapped in HTML element
      */
     wrap(tag, content, attrs = {}) {
@@ -848,12 +833,10 @@ class Summary {
     }
     /**
      * Writes text in the buffer to the summary buffer file and empties buffer. Will append by default.
-     *
      * @param {SummaryWriteOptions} [options] (optional) options for write operation
-     *
      * @returns {Promise<Summary>} summary instance
      */
-    write(options) {
+    async write(options) {
         return __awaiter(this, void 0, void 0, function* () {
             const overwrite = !!(options === null || options === void 0 ? void 0 : options.overwrite);
             const filePath = yield this.filePath();
@@ -864,7 +847,6 @@ class Summary {
     }
     /**
      * Clears the summary buffer and wipes the summary file
-     *
      * @returns {Summary} summary instance
      */
     clear() {
@@ -874,7 +856,6 @@ class Summary {
     }
     /**
      * Returns the current summary buffer as a string
-     *
      * @returns {string} string of summary buffer
      */
     stringify() {
@@ -882,7 +863,6 @@ class Summary {
     }
     /**
      * If the summary buffer is empty
-     *
      * @returns {boolen} true if the buffer is empty
      */
     isEmptyBuffer() {
@@ -890,7 +870,6 @@ class Summary {
     }
     /**
      * Resets the summary buffer without writing to summary file
-     *
      * @returns {Summary} summary instance
      */
     emptyBuffer() {
@@ -899,10 +878,8 @@ class Summary {
     }
     /**
      * Adds raw text to the summary buffer
-     *
      * @param {string} text content to add
-     * @param {boolean} [addEOL=false] (optional) append an EOL to the raw text (default: false)
-     *
+     * @param {boolean} [addEOL] (optional) append an EOL to the raw text (default: false)
      * @returns {Summary} summary instance
      */
     addRaw(text, addEOL = false) {
@@ -911,7 +888,6 @@ class Summary {
     }
     /**
      * Adds the operating system-specific end-of-line marker to the buffer
-     *
      * @returns {Summary} summary instance
      */
     addEOL() {
@@ -919,10 +895,8 @@ class Summary {
     }
     /**
      * Adds an HTML codeblock to the summary buffer
-     *
      * @param {string} code content to render within fenced code block
      * @param {string} lang (optional) language to syntax highlight code
-     *
      * @returns {Summary} summary instance
      */
     addCodeBlock(code, lang) {
@@ -932,10 +906,8 @@ class Summary {
     }
     /**
      * Adds an HTML list to the summary buffer
-     *
      * @param {string[]} items list of items to render
-     * @param {boolean} [ordered=false] (optional) if the rendered list should be ordered or not (default: false)
-     *
+     * @param {boolean} [ordered] (optional) if the rendered list should be ordered or not (default: false)
      * @returns {Summary} summary instance
      */
     addList(items, ordered = false) {
@@ -946,9 +918,7 @@ class Summary {
     }
     /**
      * Adds an HTML table to the summary buffer
-     *
      * @param {SummaryTableCell[]} rows table rows
-     *
      * @returns {Summary} summary instance
      */
     addTable(rows) {
@@ -973,10 +943,8 @@ class Summary {
     }
     /**
      * Adds a collapsable HTML details element to the summary buffer
-     *
      * @param {string} label text for the closed state
      * @param {string} content collapsable content
-     *
      * @returns {Summary} summary instance
      */
     addDetails(label, content) {
@@ -985,11 +953,9 @@ class Summary {
     }
     /**
      * Adds an HTML image tag to the summary buffer
-     *
      * @param {string} src path to the image you to embed
      * @param {string} alt text description of the image
      * @param {SummaryImageOptions} options (optional) addition image attributes
-     *
      * @returns {Summary} summary instance
      */
     addImage(src, alt, options) {
@@ -1000,10 +966,8 @@ class Summary {
     }
     /**
      * Adds an HTML section heading element
-     *
      * @param {string} text heading text
-     * @param {number | string} [level=1] (optional) the heading level, default: 1
-     *
+     * @param {number | string} [level] (optional) the heading level, default: 1
      * @returns {Summary} summary instance
      */
     addHeading(text, level) {
@@ -1016,7 +980,6 @@ class Summary {
     }
     /**
      * Adds an HTML thematic break (<hr>) to the summary buffer
-     *
      * @returns {Summary} summary instance
      */
     addSeparator() {
@@ -1025,7 +988,6 @@ class Summary {
     }
     /**
      * Adds an HTML line break (<br>) to the summary buffer
-     *
      * @returns {Summary} summary instance
      */
     addBreak() {
@@ -1034,10 +996,8 @@ class Summary {
     }
     /**
      * Adds an HTML blockquote to the summary buffer
-     *
      * @param {string} text quote text
      * @param {string} cite (optional) citation url
-     *
      * @returns {Summary} summary instance
      */
     addQuote(text, cite) {
@@ -1047,10 +1007,8 @@ class Summary {
     }
     /**
      * Adds an HTML anchor tag to the summary buffer
-     *
      * @param {string} text link text/content
      * @param {string} href hyperlink
-     *
      * @returns {Summary} summary instance
      */
     addLink(text, href) {
@@ -1074,7 +1032,7 @@ exports.summary = _summary;
 "use strict";
 
 // We use any as a valid input type
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.toCommandProperties = exports.toCommandValue = void 0;
 /**
@@ -1121,21 +1079,21 @@ exports.toCommandProperties = toCommandProperties;
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    if (k2 === undefined) {k2 = k;}
+    Object.defineProperty(o, k2, { enumerable: true, get() { return m[k]; } });
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -1143,7 +1101,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -1156,7 +1114,6 @@ const tr = __importStar(__nccwpck_require__(6665));
  * Exec a command.
  * Output will be streamed to the live console.
  * Returns promise with return code
- *
  * @param     commandLine        command to execute (can include additional args). Must be correctly escaped.
  * @param     args               optional arguments for tool. Escaping is handled by the lib.
  * @param     options            optional exec options.  See ExecOptions
@@ -1180,14 +1137,13 @@ exports.exec = exec;
  * Exec a command and get the output.
  * Output will be streamed to the live console.
  * Returns promise with the exit code and collected stdout and stderr
- *
  * @param     commandLine           command to execute (can include additional args). Must be correctly escaped.
  * @param     args                  optional arguments for tool. Escaping is handled by the lib.
  * @param     options               optional exec options.  See ExecOptions
  * @returns   Promise<ExecOutput>   exit code, stdout, and stderr
  */
 function getExecOutput(commandLine, args, options) {
-    var _a, _b;
+    var _a; var _b;
     return __awaiter(this, void 0, void 0, function* () {
         let stdout = '';
         let stderr = '';
@@ -1231,21 +1187,21 @@ exports.getExecOutput = getExecOutput;
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    if (k2 === undefined) {k2 = k;}
+    Object.defineProperty(o, k2, { enumerable: true, get() { return m[k]; } });
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -1253,7 +1209,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -1347,7 +1303,7 @@ class ToolRunner extends events.EventEmitter {
     _getSpawnFileName() {
         if (IS_WINDOWS) {
             if (this._isCmdFile()) {
-                return process.env['COMSPEC'] || 'cmd.exe';
+                return process.env.COMSPEC || 'cmd.exe';
             }
         }
         return this.toolPath;
@@ -1595,7 +1551,7 @@ class ToolRunner extends events.EventEmitter {
         const result = {};
         result.cwd = options.cwd;
         result.env = options.env;
-        result['windowsVerbatimArguments'] =
+        result.windowsVerbatimArguments =
             options.windowsVerbatimArguments || this._isCmdFile();
         if (options.windowsVerbatimArguments) {
             result.argv0 = `"${toolPath}"`;
@@ -1606,7 +1562,6 @@ class ToolRunner extends events.EventEmitter {
      * Exec a tool.
      * Output will be streamed to the live console.
      * Returns promise with return code
-     *
      * @param     tool     path to tool to exec
      * @param     options  optional exec options.  See ExecOptions
      * @returns   number
@@ -1727,7 +1682,6 @@ class ToolRunner extends events.EventEmitter {
 exports.ToolRunner = ToolRunner;
 /**
  * Convert an arg string to an array of args. Handles escaping
- *
  * @param    argString   string of arguments
  * @returns  string[]    array of arguments
  */
@@ -1859,7 +1813,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -1875,7 +1829,7 @@ class BasicCredentialHandler {
         if (!options.headers) {
             throw Error('The request has no headers');
         }
-        options.headers['Authorization'] = `Basic ${Buffer.from(`${this.username}:${this.password}`).toString('base64')}`;
+        options.headers.Authorization = `Basic ${Buffer.from(`${this.username}:${this.password}`).toString('base64')}`;
     }
     // This handler cannot handle 401
     canHandleAuthentication() {
@@ -1898,7 +1852,7 @@ class BearerCredentialHandler {
         if (!options.headers) {
             throw Error('The request has no headers');
         }
-        options.headers['Authorization'] = `Bearer ${this.token}`;
+        options.headers.Authorization = `Bearer ${this.token}`;
     }
     // This handler cannot handle 401
     canHandleAuthentication() {
@@ -1921,7 +1875,7 @@ class PersonalAccessTokenCredentialHandler {
         if (!options.headers) {
             throw Error('The request has no headers');
         }
-        options.headers['Authorization'] = `Basic ${Buffer.from(`PAT:${this.token}`).toString('base64')}`;
+        options.headers.Authorization = `Basic ${Buffer.from(`PAT:${this.token}`).toString('base64')}`;
     }
     // This handler cannot handle 401
     canHandleAuthentication() {
@@ -1943,27 +1897,27 @@ exports.PersonalAccessTokenCredentialHandler = PersonalAccessTokenCredentialHand
 
 "use strict";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+      desc = { enumerable: true, get() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -1971,7 +1925,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -1985,42 +1939,42 @@ const tunnel = __importStar(__nccwpck_require__(770));
 const undici_1 = __nccwpck_require__(6752);
 var HttpCodes;
 (function (HttpCodes) {
-    HttpCodes[HttpCodes["OK"] = 200] = "OK";
-    HttpCodes[HttpCodes["MultipleChoices"] = 300] = "MultipleChoices";
-    HttpCodes[HttpCodes["MovedPermanently"] = 301] = "MovedPermanently";
-    HttpCodes[HttpCodes["ResourceMoved"] = 302] = "ResourceMoved";
-    HttpCodes[HttpCodes["SeeOther"] = 303] = "SeeOther";
-    HttpCodes[HttpCodes["NotModified"] = 304] = "NotModified";
-    HttpCodes[HttpCodes["UseProxy"] = 305] = "UseProxy";
-    HttpCodes[HttpCodes["SwitchProxy"] = 306] = "SwitchProxy";
-    HttpCodes[HttpCodes["TemporaryRedirect"] = 307] = "TemporaryRedirect";
-    HttpCodes[HttpCodes["PermanentRedirect"] = 308] = "PermanentRedirect";
-    HttpCodes[HttpCodes["BadRequest"] = 400] = "BadRequest";
-    HttpCodes[HttpCodes["Unauthorized"] = 401] = "Unauthorized";
-    HttpCodes[HttpCodes["PaymentRequired"] = 402] = "PaymentRequired";
-    HttpCodes[HttpCodes["Forbidden"] = 403] = "Forbidden";
-    HttpCodes[HttpCodes["NotFound"] = 404] = "NotFound";
-    HttpCodes[HttpCodes["MethodNotAllowed"] = 405] = "MethodNotAllowed";
-    HttpCodes[HttpCodes["NotAcceptable"] = 406] = "NotAcceptable";
-    HttpCodes[HttpCodes["ProxyAuthenticationRequired"] = 407] = "ProxyAuthenticationRequired";
-    HttpCodes[HttpCodes["RequestTimeout"] = 408] = "RequestTimeout";
-    HttpCodes[HttpCodes["Conflict"] = 409] = "Conflict";
-    HttpCodes[HttpCodes["Gone"] = 410] = "Gone";
-    HttpCodes[HttpCodes["TooManyRequests"] = 429] = "TooManyRequests";
-    HttpCodes[HttpCodes["InternalServerError"] = 500] = "InternalServerError";
-    HttpCodes[HttpCodes["NotImplemented"] = 501] = "NotImplemented";
-    HttpCodes[HttpCodes["BadGateway"] = 502] = "BadGateway";
-    HttpCodes[HttpCodes["ServiceUnavailable"] = 503] = "ServiceUnavailable";
-    HttpCodes[HttpCodes["GatewayTimeout"] = 504] = "GatewayTimeout";
+    HttpCodes[HttpCodes.OK = 200] = "OK";
+    HttpCodes[HttpCodes.MultipleChoices = 300] = "MultipleChoices";
+    HttpCodes[HttpCodes.MovedPermanently = 301] = "MovedPermanently";
+    HttpCodes[HttpCodes.ResourceMoved = 302] = "ResourceMoved";
+    HttpCodes[HttpCodes.SeeOther = 303] = "SeeOther";
+    HttpCodes[HttpCodes.NotModified = 304] = "NotModified";
+    HttpCodes[HttpCodes.UseProxy = 305] = "UseProxy";
+    HttpCodes[HttpCodes.SwitchProxy = 306] = "SwitchProxy";
+    HttpCodes[HttpCodes.TemporaryRedirect = 307] = "TemporaryRedirect";
+    HttpCodes[HttpCodes.PermanentRedirect = 308] = "PermanentRedirect";
+    HttpCodes[HttpCodes.BadRequest = 400] = "BadRequest";
+    HttpCodes[HttpCodes.Unauthorized = 401] = "Unauthorized";
+    HttpCodes[HttpCodes.PaymentRequired = 402] = "PaymentRequired";
+    HttpCodes[HttpCodes.Forbidden = 403] = "Forbidden";
+    HttpCodes[HttpCodes.NotFound = 404] = "NotFound";
+    HttpCodes[HttpCodes.MethodNotAllowed = 405] = "MethodNotAllowed";
+    HttpCodes[HttpCodes.NotAcceptable = 406] = "NotAcceptable";
+    HttpCodes[HttpCodes.ProxyAuthenticationRequired = 407] = "ProxyAuthenticationRequired";
+    HttpCodes[HttpCodes.RequestTimeout = 408] = "RequestTimeout";
+    HttpCodes[HttpCodes.Conflict = 409] = "Conflict";
+    HttpCodes[HttpCodes.Gone = 410] = "Gone";
+    HttpCodes[HttpCodes.TooManyRequests = 429] = "TooManyRequests";
+    HttpCodes[HttpCodes.InternalServerError = 500] = "InternalServerError";
+    HttpCodes[HttpCodes.NotImplemented = 501] = "NotImplemented";
+    HttpCodes[HttpCodes.BadGateway = 502] = "BadGateway";
+    HttpCodes[HttpCodes.ServiceUnavailable = 503] = "ServiceUnavailable";
+    HttpCodes[HttpCodes.GatewayTimeout = 504] = "GatewayTimeout";
 })(HttpCodes || (exports.HttpCodes = HttpCodes = {}));
 var Headers;
 (function (Headers) {
-    Headers["Accept"] = "accept";
-    Headers["ContentType"] = "content-type";
+    Headers.Accept = "accept";
+    Headers.ContentType = "content-type";
 })(Headers || (exports.Headers = Headers = {}));
 var MediaTypes;
 (function (MediaTypes) {
-    MediaTypes["ApplicationJson"] = "application/json";
+    MediaTypes.ApplicationJson = "application/json";
 })(MediaTypes || (exports.MediaTypes = MediaTypes = {}));
 /**
  * Returns the proxy URL, depending upon the supplied url and proxy environment variables.
@@ -2253,7 +2207,7 @@ class HttpClient {
                     HttpRedirectCodes.includes(response.message.statusCode) &&
                     this._allowRedirects &&
                     redirectsRemaining > 0) {
-                    const redirectUrl = response.message.headers['location'];
+                    const redirectUrl = response.message.headers.location;
                     if (!redirectUrl) {
                         // if there's no location to redirect to, we won't
                         break;
@@ -2611,10 +2565,10 @@ function getProxyUrl(reqUrl) {
     }
     const proxyVar = (() => {
         if (usingSsl) {
-            return process.env['https_proxy'] || process.env['HTTPS_PROXY'];
+            return process.env.https_proxy || process.env.HTTPS_PROXY;
         }
         else {
-            return process.env['http_proxy'] || process.env['HTTP_PROXY'];
+            return process.env.http_proxy || process.env.HTTP_PROXY;
         }
     })();
     if (proxyVar) {
@@ -2623,7 +2577,7 @@ function getProxyUrl(reqUrl) {
         }
         catch (_a) {
             if (!proxyVar.startsWith('http://') && !proxyVar.startsWith('https://'))
-                return new DecodedURL(`http://${proxyVar}`);
+                {return new DecodedURL(`http://${proxyVar}`);}
         }
     }
     else {
@@ -2639,7 +2593,7 @@ function checkBypass(reqUrl) {
     if (isLoopbackAddress(reqHost)) {
         return true;
     }
-    const noProxy = process.env['no_proxy'] || process.env['NO_PROXY'] || '';
+    const noProxy = process.env.no_proxy || process.env.NO_PROXY || '';
     if (!noProxy) {
         return false;
     }
@@ -2705,21 +2659,21 @@ class DecodedURL extends URL {
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    if (k2 === undefined) {k2 = k;}
+    Object.defineProperty(o, k2, { enumerable: true, get() { return m[k]; } });
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -2727,7 +2681,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -2787,18 +2741,18 @@ exports.isRooted = isRooted;
  * Best effort attempt to determine whether a file exists and is executable.
  * @param filePath    file path to check
  * @param extensions  additional file extensions to try
- * @return if file exists and is executable, returns the file path. otherwise empty string.
+ * @returns if file exists and is executable, returns the file path. otherwise empty string.
  */
 function tryGetExecutablePath(filePath, extensions) {
     return __awaiter(this, void 0, void 0, function* () {
-        let stats = undefined;
+        let stats;
         try {
             // test file exists
             stats = yield exports.stat(filePath);
         }
         catch (err) {
             if (err.code !== 'ENOENT') {
-                // eslint-disable-next-line no-console
+                 
                 console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
             }
         }
@@ -2826,7 +2780,7 @@ function tryGetExecutablePath(filePath, extensions) {
             }
             catch (err) {
                 if (err.code !== 'ENOENT') {
-                    // eslint-disable-next-line no-console
+                     
                     console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
                 }
             }
@@ -2844,7 +2798,7 @@ function tryGetExecutablePath(filePath, extensions) {
                         }
                     }
                     catch (err) {
-                        // eslint-disable-next-line no-console
+                         
                         console.log(`Unexpected error attempting to determine the actual case of the file '${filePath}': ${err}`);
                     }
                     return filePath;
@@ -2882,7 +2836,7 @@ function isUnixExecutable(stats) {
 // Get the path of cmd.exe in windows
 function getCmdPath() {
     var _a;
-    return (_a = process.env['COMSPEC']) !== null && _a !== void 0 ? _a : `cmd.exe`;
+    return (_a = process.env.COMSPEC) !== null && _a !== void 0 ? _a : `cmd.exe`;
 }
 exports.getCmdPath = getCmdPath;
 //# sourceMappingURL=io-util.js.map
@@ -2895,21 +2849,21 @@ exports.getCmdPath = getCmdPath;
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    if (k2 === undefined) {k2 = k;}
+    Object.defineProperty(o, k2, { enumerable: true, get() { return m[k]; } });
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -2917,7 +2871,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -2930,7 +2884,6 @@ const ioUtil = __importStar(__nccwpck_require__(5207));
 /**
  * Copies a file or folder.
  * Based off of shelljs - https://github.com/shelljs/shelljs/blob/9237f66c52e5daa40458f94f9565e18e8132f5a6/src/cp.js
- *
  * @param     source    source path
  * @param     dest      destination path
  * @param     options   optional. See CopyOptions.
@@ -2971,7 +2924,6 @@ function cp(source, dest, options = {}) {
 exports.cp = cp;
 /**
  * Moves a path.
- *
  * @param     source    source path
  * @param     dest      destination path
  * @param     options   optional. See MoveOptions.
@@ -3001,7 +2953,6 @@ function mv(source, dest, options = {}) {
 exports.mv = mv;
 /**
  * Remove a path recursively with force
- *
  * @param inputPath path to remove
  */
 function rmRF(inputPath) {
@@ -3031,7 +2982,6 @@ exports.rmRF = rmRF;
 /**
  * Make a directory.  Creates the full path with folders in between
  * Will throw if it fails
- *
  * @param   fsPath        path to create
  * @returns Promise<void>
  */
@@ -3045,7 +2995,6 @@ exports.mkdirP = mkdirP;
 /**
  * Returns path of a tool had the tool actually been invoked.  Resolves via paths.
  * If you check and the tool does not exist, it will throw.
- *
  * @param     tool              name of the tool
  * @param     check             whether to check if tool exists
  * @returns   Promise<string>   path to tool
@@ -3078,7 +3027,6 @@ function which(tool, check) {
 exports.which = which;
 /**
  * Returns a list of all occurrences of the given tool on the system path.
- *
  * @returns   Promise<string[]>  the paths of the tool
  */
 function findInPath(tool) {
@@ -3088,8 +3036,8 @@ function findInPath(tool) {
         }
         // build the list of extensions to try
         const extensions = [];
-        if (ioUtil.IS_WINDOWS && process.env['PATHEXT']) {
-            for (const extension of process.env['PATHEXT'].split(path.delimiter)) {
+        if (ioUtil.IS_WINDOWS && process.env.PATHEXT) {
+            for (const extension of process.env.PATHEXT.split(path.delimiter)) {
                 if (extension) {
                     extensions.push(extension);
                 }
@@ -3145,7 +3093,7 @@ function cpDirRecursive(sourceDir, destDir, currentDepth, force) {
     return __awaiter(this, void 0, void 0, function* () {
         // Ensure there is not a run away recursive copy
         if (currentDepth >= 255)
-            return;
+            {return;}
         currentDepth++;
         yield mkdirP(destDir);
         const files = yield ioUtil.readdir(sourceDir);
@@ -3201,25 +3149,25 @@ function copyFile(srcFile, destFile, force) {
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+      desc = { enumerable: true, get() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -3227,7 +3175,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -3337,25 +3285,25 @@ exports._readLinuxVersionFile = _readLinuxVersionFile;
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+      desc = { enumerable: true, get() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -3363,7 +3311,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -3431,25 +3379,25 @@ exports.RetryHelper = RetryHelper;
 "use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+      desc = { enumerable: true, get() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
+    if (k2 === undefined) {k2 = k;}
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+    o.default = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
+    if (mod && mod.__esModule) {return mod;}
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) {for (var k in mod) {if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) {__createBinding(result, mod, k);}}}
     __setModuleDefault(result, mod);
     return result;
 };
@@ -3457,7 +3405,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -3491,7 +3439,6 @@ const IS_MAC = process.platform === 'darwin';
 const userAgent = 'actions/tool-cache';
 /**
  * Download a tool from an url and stream it into a file
- *
  * @param url       url of tool to download
  * @param dest      path to download tool
  * @param auth      authorization header
@@ -3574,7 +3521,6 @@ function downloadToolAttempt(url, dest, auth, headers) {
 }
 /**
  * Extract a .7z file
- *
  * @param file     path to the .7z file
  * @param dest     destination directory. Optional.
  * @param _7zPath  path to 7zr.exe. Optional, for long path support. Most .7z archives do not have this
@@ -3648,7 +3594,6 @@ function extract7z(file, dest, _7zPath) {
 exports.extract7z = extract7z;
 /**
  * Extract a compressed tar archive
- *
  * @param file     path to the tar
  * @param dest     destination directory. Optional.
  * @param flags    flags for the tar command to use for extraction. Defaults to 'xz' (extracting gzipped tars). Optional.
@@ -3707,7 +3652,6 @@ function extractTar(file, dest, flags = 'xz') {
 exports.extractTar = extractTar;
 /**
  * Extract a xar compatible archive
- *
  * @param file     path to the archive
  * @param dest     destination directory. Optional.
  * @param flags    flags for the xar. Optional.
@@ -3737,7 +3681,6 @@ function extractXar(file, dest, flags = []) {
 exports.extractXar = extractXar;
 /**
  * Extract a zip
- *
  * @param file     path to the zip
  * @param dest     destination directory. Optional.
  * @returns        path to the destination directory
@@ -3822,7 +3765,6 @@ function extractZipNix(file, dest) {
 }
 /**
  * Caches a directory and installs it into the tool cacheDir
- *
  * @param sourceDir    the directory to cache into tools
  * @param tool          tool name
  * @param version       version of the tool.  semver format
@@ -3854,7 +3796,6 @@ exports.cacheDir = cacheDir;
 /**
  * Caches a downloaded file (GUID) and installs it
  * into the tool cache with a given targetName
- *
  * @param sourceFile    the file to cache into tools.  Typically a result of downloadTool which is a guid.
  * @param targetFile    the name of the file name in the tools directory
  * @param tool          tool name
@@ -3885,7 +3826,6 @@ function cacheFile(sourceFile, targetFile, tool, version, arch) {
 exports.cacheFile = cacheFile;
 /**
  * Finds the path to a tool version in the local installed tool cache
- *
  * @param toolName      name of the tool
  * @param versionSpec   version of the tool
  * @param arch          optional arch.  defaults to arch of computer
@@ -3923,7 +3863,6 @@ function find(toolName, versionSpec, arch) {
 exports.find = find;
 /**
  * Finds the paths to all versions of a tool that are installed in the local tool cache
- *
  * @param toolName  name of the tool
  * @param arch      optional arch.  defaults to arch of computer
  */
@@ -3966,7 +3905,7 @@ function getManifestFromRepo(owner, repo, auth, branch = 'master') {
                 break;
             }
         }
-        headers['accept'] = 'application/vnd.github.VERSION.raw';
+        headers.accept = 'application/vnd.github.VERSION.raw';
         let versionsRaw = yield (yield http.get(manifestUrl, headers)).readBody();
         if (versionsRaw) {
             // shouldn't be needed but protects against invalid json saved with BOM
@@ -4019,7 +3958,6 @@ function _completeToolPath(tool, version, arch) {
 }
 /**
  * Check if version string is explicit
- *
  * @param versionSpec      version string to check
  */
 function isExplicitVersion(versionSpec) {
@@ -4032,7 +3970,6 @@ function isExplicitVersion(versionSpec) {
 exports.isExplicitVersion = isExplicitVersion;
 /**
  * Get the highest satisfiying semantic version in `versions` which satisfies `versionSpec`
- *
  * @param versions        array of versions to evaluate
  * @param versionSpec     semantic version spec to satisfy
  */
@@ -4066,7 +4003,7 @@ exports.evaluateVersions = evaluateVersions;
  * Gets RUNNER_TOOL_CACHE
  */
 function _getCacheDirectory() {
-    const cacheDirectory = process.env['RUNNER_TOOL_CACHE'] || '';
+    const cacheDirectory = process.env.RUNNER_TOOL_CACHE || '';
     (0, assert_1.ok)(cacheDirectory, 'Expected RUNNER_TOOL_CACHE to be defined');
     return cacheDirectory;
 }
@@ -4074,7 +4011,7 @@ function _getCacheDirectory() {
  * Gets RUNNER_TEMP
  */
 function _getTempDirectory() {
-    const tempDirectory = process.env['RUNNER_TEMP'] || '';
+    const tempDirectory = process.env.RUNNER_TEMP || '';
     (0, assert_1.ok)(tempDirectory, 'Expected RUNNER_TEMP to be defined');
     return tempDirectory;
 }
@@ -4082,9 +4019,9 @@ function _getTempDirectory() {
  * Gets a global variable
  */
 function _getGlobal(key, defaultValue) {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
+     
     const value = global[key];
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+     
     return value !== undefined ? value : defaultValue;
 }
 /**
@@ -4856,16 +4793,16 @@ function cmp (a, op, b, loose) {
   switch (op) {
     case '===':
       if (typeof a === 'object')
-        a = a.version
+        {a = a.version}
       if (typeof b === 'object')
-        b = b.version
+        {b = b.version}
       return a === b
 
     case '!==':
       if (typeof a === 'object')
-        a = a.version
+        {a = a.version}
       if (typeof b === 'object')
-        b = b.version
+        {b = b.version}
       return a !== b
 
     case '':
@@ -5616,7 +5553,7 @@ function outside (version, range, hilo, options) {
   version = new SemVer(version, options)
   range = new Range(range, options)
 
-  var gtfn, ltefn, ltfn, comp, ecomp
+  var gtfn; var ltefn; var ltfn; var comp; var ecomp
   switch (hilo) {
     case '>':
       gtfn = gt
@@ -8021,7 +7958,7 @@ const outside = (version, range, hilo, options) => {
   version = new SemVer(version, options)
   range = new Range(range, options)
 
-  let gtfn, ltefn, ltfn, comp, ecomp
+  let gtfn; let ltefn; let ltfn; let comp; let ecomp
   switch (hilo) {
     case '>':
       gtfn = gt
@@ -8251,7 +8188,7 @@ const simpleSubset = (sub, dom, options) => {
   }
 
   const eqSet = new Set()
-  let gt, lt
+  let gt; let lt
   for (const c of sub) {
     if (c.operator === '>' || c.operator === '>=') {
       gt = higherGT(gt, c, options)
@@ -8295,8 +8232,8 @@ const simpleSubset = (sub, dom, options) => {
     return true
   }
 
-  let higher, lower
-  let hasDomLT, hasDomGT
+  let higher; let lower
+  let hasDomLT; let hasDomGT
   // if the subset has a prerelease, we need a comparator in the superset
   // with the same tuple and a prerelease, or it's not a subset
   let needDomLTPre = lt &&
@@ -8665,7 +8602,7 @@ function createSecureSocket(options, cb) {
   TunnelingAgent.prototype.createSocket.call(self, options, function(socket) {
     var hostHeader = options.request.getHeader('host');
     var tlsOptions = mergeOptions({}, self.options, {
-      socket: socket,
+      socket,
       servername: hostHeader ? hostHeader.replace(/:.*$/, '') : options.host
     });
 
@@ -8680,9 +8617,9 @@ function createSecureSocket(options, cb) {
 function toOptions(host, port, localAddress) {
   if (typeof host === 'string') { // since v0.10
     return {
-      host: host,
-      port: port,
-      localAddress: localAddress
+      host,
+      port,
+      localAddress
     };
   }
   return host; // for v0.11 or later
@@ -8830,6 +8767,7 @@ module.exports.getGlobalDispatcher = getGlobalDispatcher
 
 if (util.nodeMajor > 16 || (util.nodeMajor === 16 && util.nodeMinor >= 8)) {
   let fetchImpl = null
+  module.exports.caches = new CacheStorage(kConstruct)
   module.exports.fetch = async function fetch (resource) {
     if (!fetchImpl) {
       fetchImpl = (__nccwpck_require__(2315).fetch)
@@ -8845,24 +8783,23 @@ if (util.nodeMajor > 16 || (util.nodeMajor === 16 && util.nodeMinor >= 8)) {
       throw err
     }
   }
-  module.exports.Headers = __nccwpck_require__(6349).Headers
-  module.exports.Response = __nccwpck_require__(8676).Response
-  module.exports.Request = __nccwpck_require__(5194).Request
-  module.exports.FormData = __nccwpck_require__(3073).FormData
   module.exports.File = __nccwpck_require__(3041).File
   module.exports.FileReader = __nccwpck_require__(2160).FileReader
+  module.exports.FormData = __nccwpck_require__(3073).FormData
+  module.exports.getGlobalOrigin = getGlobalOrigin
+  module.exports.Headers = __nccwpck_require__(6349).Headers
+  module.exports.Request = __nccwpck_require__(5194).Request
+  module.exports.Response = __nccwpck_require__(8676).Response
 
   const { setGlobalOrigin, getGlobalOrigin } = __nccwpck_require__(5628)
 
   module.exports.setGlobalOrigin = setGlobalOrigin
-  module.exports.getGlobalOrigin = getGlobalOrigin
 
   const { CacheStorage } = __nccwpck_require__(4738)
   const { kConstruct } = __nccwpck_require__(296)
 
   // Cache & CacheStorage are tightly coupled with fetch. Even if it may run
   // in an older version of Node, it doesn't have any use without fetch.
-  module.exports.caches = new CacheStorage(kConstruct)
 }
 
 if (util.nodeMajor >= 16) {
@@ -8871,12 +8808,12 @@ if (util.nodeMajor >= 16) {
   module.exports.deleteCookie = deleteCookie
   module.exports.getCookies = getCookies
   module.exports.getSetCookies = getSetCookies
-  module.exports.setCookie = setCookie
 
   const { parseMIMEType, serializeAMimeType } = __nccwpck_require__(4322)
 
   module.exports.parseMIMEType = parseMIMEType
   module.exports.serializeAMimeType = serializeAMimeType
+  module.exports.setCookie = setCookie
 }
 
 if (util.nodeMajor >= 18 && hasCrypto) {
@@ -9202,7 +9139,7 @@ class ConnectHandler extends AsyncResource {
   }
 }
 
-function connect (opts, callback) {
+async function connect (opts, callback) {
   if (callback === undefined) {
     return new Promise((resolve, reject) => {
       connect.call(this, opts, (err, data) => {
@@ -9647,7 +9584,7 @@ class RequestHandler extends AsyncResource {
   }
 }
 
-function request (opts, callback) {
+async function request (opts, callback) {
   if (callback === undefined) {
     return new Promise((resolve, reject) => {
       request.call(this, opts, (err, data) => {
@@ -9876,7 +9813,7 @@ class StreamHandler extends AsyncResource {
   }
 }
 
-function stream (opts, factory, callback) {
+async function stream (opts, factory, callback) {
   if (callback === undefined) {
     return new Promise((resolve, reject) => {
       stream.call(this, opts, factory, (err, data) => {
@@ -9984,7 +9921,7 @@ class UpgradeHandler extends AsyncResource {
   }
 }
 
-function upgrade (opts, callback) {
+async function upgrade (opts, callback) {
   if (callback === undefined) {
     return new Promise((resolve, reject) => {
       upgrade.call(this, opts, (err, data) => {
@@ -10186,7 +10123,7 @@ module.exports = class BodyReadable extends Readable {
     return this[kBody]
   }
 
-  dump (opts) {
+  async dump (opts) {
     let limit = opts && Number.isFinite(opts.limit) ? opts.limit : 262144
     const signal = opts && opts.signal
 
@@ -10444,7 +10381,7 @@ const kMaxWeightPerServer = Symbol('kMaxWeightPerServer')
 const kErrorPenalty = Symbol('kErrorPenalty')
 
 function getGreatestCommonDivisor (a, b) {
-  if (b === 0) return a
+  if (b === 0) {return a}
   return getGreatestCommonDivisor(b, a % b)
 }
 
@@ -10631,7 +10568,7 @@ const { getGlobalDispatcher } = __nccwpck_require__(2581)
 
 /**
  * @see https://w3c.github.io/ServiceWorker/#dfn-cache-batch-operation
- * @typedef {Object} CacheBatchOperation
+ * @typedef {object} CacheBatchOperation
  * @property {'delete' | 'put'} type
  * @property {any} request
  * @property {any} response
@@ -10677,7 +10614,7 @@ class Cache {
   async matchAll (request = undefined, options = {}) {
     webidl.brandCheck(this, Cache)
 
-    if (request !== undefined) request = webidl.converters.RequestInfo(request)
+    if (request !== undefined) {request = webidl.converters.RequestInfo(request)}
     options = webidl.converters.CacheQueryOptions(options)
 
     // 1.
@@ -11115,7 +11052,7 @@ class Cache {
   async keys (request = undefined, options = {}) {
     webidl.brandCheck(this, Cache)
 
-    if (request !== undefined) request = webidl.converters.RequestInfo(request)
+    if (request !== undefined) {request = webidl.converters.RequestInfo(request)}
     options = webidl.converters.CacheQueryOptions(options)
 
     // 1.
@@ -12190,7 +12127,7 @@ async function lazyllhttp () {
 
   return await WebAssembly.instantiate(mod, {
     env: {
-      /* eslint-disable camelcase */
+       
 
       wasm_on_url: (p, at, len) => {
         /* istanbul ignore next */
@@ -12229,7 +12166,7 @@ async function lazyllhttp () {
         return currentParser.onMessageComplete() || 0
       }
 
-      /* eslint-enable camelcase */
+       
     }
   })
 }
@@ -13330,8 +13267,8 @@ function writeH2 (client, session, request) {
   const { body, method, path, host, upgrade, expectContinue, signal, headers: reqHeaders } = request
 
   let headers
-  if (typeof reqHeaders === 'string') headers = Request[kHTTP2CopyHeaders](reqHeaders.trim())
-  else headers = reqHeaders
+  if (typeof reqHeaders === 'string') {headers = Request[kHTTP2CopyHeaders](reqHeaders.trim())}
+  else {headers = reqHeaders}
 
   if (upgrade) {
     errorRequest(client, request, new Error('Upgrade not supported for H2'))
@@ -13383,7 +13320,7 @@ function writeH2 (client, session, request) {
     stream.once('close', () => {
       h2State.openStreams -= 1
       // TODO(HTTP/2): unref only if current streams count is 0
-      if (h2State.openStreams === 0) session.unref()
+      if (h2State.openStreams === 0) {session.unref()}
     })
 
     return true
@@ -13752,7 +13689,7 @@ async function writeIterable ({ h2stream, body, client, request, socket, content
     }
   }
 
-  const waitForDrain = () => new Promise((resolve, reject) => {
+  const waitForDrain = async () => new Promise((resolve, reject) => {
     assert(callback === null)
 
     if (socket[kError]) {
@@ -14057,7 +13994,7 @@ const { webidl } = __nccwpck_require__(4222)
 const { Headers } = __nccwpck_require__(6349)
 
 /**
- * @typedef {Object} Cookie
+ * @typedef {object} Cookie
  * @property {string} name
  * @property {string} value
  * @property {Date|number|undefined} expires
@@ -14687,7 +14624,7 @@ function validateCookieDomain (domain) {
   IMF-fixdate  = day-name "," SP date1 SP time-of-day SP GMT
   ; fixed length/zone/capitalization subset of the format
   ; see Section 3.3 of [RFC5322]
-
+ 
   day-name     = %x4D.6F.6E ; "Mon", case-sensitive
               / %x54.75.65 ; "Tue", case-sensitive
               / %x57.65.64 ; "Wed", case-sensitive
@@ -14697,7 +14634,7 @@ function validateCookieDomain (domain) {
               / %x53.75.6E ; "Sun", case-sensitive
   date1        = day SP month SP year
                   ; e.g., 02 Jun 1982
-
+ 
   day          = 2DIGIT
   month        = %x4A.61.6E ; "Jan", case-sensitive
               / %x46.65.62 ; "Feb", case-sensitive
@@ -14712,12 +14649,12 @@ function validateCookieDomain (domain) {
               / %x4E.6F.76 ; "Nov", case-sensitive
               / %x44.65.63 ; "Dec", case-sensitive
   year         = 4DIGIT
-
+ 
   GMT          = %x47.4D.54 ; "GMT", case-sensitive
-
+ 
   time-of-day  = hour ":" minute ":" second
               ; 00:00:00 - 23:59:60 (leap second)
-
+ 
   hour         = 2DIGIT
   minute       = 2DIGIT
   second       = 2DIGIT
@@ -15799,10 +15736,10 @@ class Request {
     for (const header of rawHeaders) {
       const [key, value] = header.split(': ')
 
-      if (value == null || value.length === 0) continue
+      if (value == null || value.length === 0) {continue}
 
-      if (headers[key]) headers[key] += `,${value}`
-      else headers[key] = value
+      if (headers[key]) {headers[key] += `,${value}`}
+      else {headers[key] = value}
     }
 
     return headers
@@ -15855,8 +15792,8 @@ function processHeader (request, key, val, skipAppend = false) {
     key.toLowerCase() === 'content-type'
   ) {
     request.contentType = val
-    if (skipAppend) request.headers[key] = processHeaderValue(key, val, skipAppend)
-    else request.headers += processHeaderValue(key, val)
+    if (skipAppend) {request.headers[key] = processHeaderValue(key, val, skipAppend)}
+    else {request.headers += processHeaderValue(key, val)}
   } else if (
     key.length === 17 &&
     key.toLowerCase() === 'transfer-encoding'
@@ -15893,15 +15830,15 @@ function processHeader (request, key, val, skipAppend = false) {
     if (Array.isArray(val)) {
       for (let i = 0; i < val.length; i++) {
         if (skipAppend) {
-          if (request.headers[key]) request.headers[key] += `,${processHeaderValue(key, val[i], skipAppend)}`
-          else request.headers[key] = processHeaderValue(key, val[i], skipAppend)
+          if (request.headers[key]) {request.headers[key] += `,${processHeaderValue(key, val[i], skipAppend)}`}
+          else {request.headers[key] = processHeaderValue(key, val[i], skipAppend)}
         } else {
           request.headers += processHeaderValue(key, val[i])
         }
       }
     } else {
-      if (skipAppend) request.headers[key] = processHeaderValue(key, val, skipAppend)
-      else request.headers += processHeaderValue(key, val)
+      if (skipAppend) {request.headers[key] = processHeaderValue(key, val, skipAppend)}
+      else {request.headers += processHeaderValue(key, val)}
     }
   }
 }
@@ -16117,7 +16054,7 @@ function getHostname (host) {
   }
 
   const idx = host.indexOf(':')
-  if (idx === -1) return host
+  if (idx === -1) {return host}
 
   return host.substring(0, idx)
 }
@@ -16217,7 +16154,7 @@ function headerNameToString (value) {
 
 function parseHeaders (headers, obj = {}) {
   // For H2 support
-  if (!Array.isArray(headers)) return headers
+  if (!Array.isArray(headers)) {return headers}
 
   for (let i = 0; i < headers.length; i += 2) {
     const key = headers[i].toString().toLowerCase()
@@ -16455,7 +16392,7 @@ function toUSVString (val) {
 // Parsed accordingly to RFC 9110
 // https://www.rfc-editor.org/rfc/rfc9110#field.content-range
 function parseRangeHeader (range) {
-  if (range == null || range === '') return { start: 0, end: null, size: null }
+  if (range == null || range === '') {return { start: 0, end: null, size: null }}
 
   const m = range ? range.match(/^bytes (\d+)-(\d+)\/(\d+)?$/) : null
   return m
@@ -16566,7 +16503,7 @@ class DispatcherBase extends Dispatcher {
     this[kInterceptors] = newInterceptors
   }
 
-  close (callback) {
+  async close (callback) {
     if (callback === undefined) {
       return new Promise((resolve, reject) => {
         this.close((err, data) => {
@@ -16606,13 +16543,13 @@ class DispatcherBase extends Dispatcher {
 
     // Should not error.
     this[kClose]()
-      .then(() => this.destroy())
+      .then(async () => this.destroy())
       .then(() => {
         queueMicrotask(onClosed)
       })
   }
 
-  destroy (err, callback) {
+  async destroy (err, callback) {
     if (typeof err === 'function') {
       callback = err
       err = null
@@ -17078,7 +17015,7 @@ function throwIfAborted (state) {
 
 function bodyMixinMethods (instance) {
   const methods = {
-    blob () {
+    async blob () {
       // The blob() method steps are to return the result of
       // running consume body with this and the following step
       // given a byte sequence bytes: return a Blob whose
@@ -17099,7 +17036,7 @@ function bodyMixinMethods (instance) {
       }, instance)
     },
 
-    arrayBuffer () {
+    async arrayBuffer () {
       // The arrayBuffer() method steps are to return the result
       // of running consume body with this and the following step
       // given a byte sequence bytes: return a new ArrayBuffer
@@ -17109,13 +17046,13 @@ function bodyMixinMethods (instance) {
       }, instance)
     },
 
-    text () {
+    async text () {
       // The text() method steps are to return the result of running
       // consume body with this and UTF-8 decode.
       return specConsumeBody(this, utf8DecodeBytes, instance)
     },
 
-    json () {
+    async json () {
       // The json() method steps are to return the result of running
       // consume body with this and parse JSON from bytes.
       return specConsumeBody(this, parseJSONFromBytes, instance)
@@ -17131,7 +17068,7 @@ function bodyMixinMethods (instance) {
       // If mimeType’s essence is "multipart/form-data", then:
       if (/multipart\/form-data/.test(contentType)) {
         const headers = {}
-        for (const [key, value] of this.headers) headers[key.toLowerCase()] = value
+        for (const [key, value] of this.headers) {headers[key.toLowerCase()] = value}
 
         const responseFormData = new FormData()
 
@@ -17182,7 +17119,7 @@ function bodyMixinMethods (instance) {
           busboy.on('error', (err) => reject(new TypeError(err)))
         })
 
-        if (this.body !== null) for await (const chunk of consumeBody(this[kState].body)) busboy.write(chunk)
+        if (this.body !== null) {for await (const chunk of consumeBody(this[kState].body)) {busboy.write(chunk)}}
         busboy.end()
         await busboyResolve
 
@@ -18102,11 +18039,11 @@ function removeHTTPWhitespace (str, leading = true, trailing = true) {
   let trail = str.length - 1
 
   if (leading) {
-    for (; lead < str.length && isHTTPWhiteSpace(str[lead]); lead++);
+    for (; lead < str.length && isHTTPWhiteSpace(str[lead]); lead++){;}
   }
 
   if (trailing) {
-    for (; trail > 0 && isHTTPWhiteSpace(str[trail]); trail--);
+    for (; trail > 0 && isHTTPWhiteSpace(str[trail]); trail--){;}
   }
 
   return str.slice(lead, trail + 1)
@@ -18128,11 +18065,11 @@ function removeASCIIWhitespace (str, leading = true, trailing = true) {
   let trail = str.length - 1
 
   if (leading) {
-    for (; lead < str.length && isASCIIWhitespace(str[lead]); lead++);
+    for (; lead < str.length && isASCIIWhitespace(str[lead]); lead++){;}
   }
 
   if (trailing) {
-    for (; trail > 0 && isASCIIWhitespace(str[trail]); trail--);
+    for (; trail > 0 && isASCIIWhitespace(str[trail]); trail--){;}
   }
 
   return str.slice(lead, trail + 1)
@@ -18196,14 +18133,14 @@ class File extends Blob {
     let t = options.type
     let d
 
-    // eslint-disable-next-line no-labels
+     
     substep: {
       if (t) {
         t = parseMIMEType(t)
 
         if (t === 'failure') {
           t = ''
-          // eslint-disable-next-line no-labels
+           
           break substep
         }
 
@@ -18865,8 +18802,8 @@ function headerValueNormalize (potentialValue) {
   //  potentialValue.
   let i = 0; let j = potentialValue.length
 
-  while (j > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(j - 1))) --j
-  while (j > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(i))) ++i
+  while (j > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(j - 1))) {--j}
+  while (j > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(i))) {++i}
 
   return i === 0 && j === potentialValue.length ? potentialValue : potentialValue.substring(i, j)
 }
@@ -19634,7 +19571,7 @@ function fetch (input, init = {}) {
   // with processResponseEndOfBody set to handleFetchDone, and processResponse
   // given response being these substeps:
 
-  const processResponse = (response) => {
+  const processResponse = async (response) => {
     // 1. If locallyAborted is true, terminate these substeps.
     if (locallyAborted) {
       return Promise.resolve()
@@ -21050,7 +20987,7 @@ async function httpNetworkFetch (
 
   // 7. Let newConnection be "yes" if forceNewConnection is true; otherwise
   // "no".
-  const newConnection = forceNewConnection ? 'yes' : 'no' // eslint-disable-line no-unused-vars
+  const newConnection = forceNewConnection ? 'yes' : 'no'  
 
   // 8. Switch on request’s mode:
   if (request.mode === 'websocket') {
@@ -23566,20 +23503,20 @@ function determineRequestsReferrer (request) {
       // 3. Return referrerOrigin.
       return referrerOrigin
     }
-    case 'strict-origin': // eslint-disable-line
+    case 'strict-origin':  
       /**
-         * 1. If referrerURL is a potentially trustworthy URL and
-         * request’s current URL is not a potentially trustworthy URL,
-         * then return no referrer.
-         * 2. Return referrerOrigin
-        */
+       * 1. If referrerURL is a potentially trustworthy URL and
+       * request’s current URL is not a potentially trustworthy URL,
+       * then return no referrer.
+       * 2. Return referrerOrigin
+       */
     case 'no-referrer-when-downgrade': // eslint-disable-line
       /**
        * 1. If referrerURL is a potentially trustworthy URL and
        * request’s current URL is not a potentially trustworthy URL,
        * then return no referrer.
        * 2. Return referrerOrigin
-      */
+       */
 
     default: // eslint-disable-line
       return isNonPotentiallyTrustWorthy ? 'no-referrer' : referrerOrigin
@@ -23633,16 +23570,16 @@ function isURLPotentiallyTrustworthy (url) {
   }
 
   // If scheme is data, return true
-  if (url.protocol === 'data:') return true
+  if (url.protocol === 'data:') {return true}
 
   // If file, return true
-  if (url.protocol === 'file:') return true
+  if (url.protocol === 'file:') {return true}
 
   return isOriginPotentiallyTrustworthy(url.origin)
 
   function isOriginPotentiallyTrustworthy (origin) {
     // If origin is explicitly null, return false
-    if (origin == null || origin === 'null') return false
+    if (origin == null || origin === 'null') {return false}
 
     const originAsURL = new URL(origin)
 
@@ -23839,8 +23776,7 @@ function filterMetadataListByAlgorithm (metadataList, algorithm) {
 /**
  * Compares two base64 strings, allowing for base64url
  * in the second string.
- *
-* @param {string} actualValue always base64
+ * @param {string} actualValue always base64
  * @param {string} expectedValue base64 or base64url
  * @returns {boolean}
  */
@@ -26505,7 +26441,7 @@ class RetryHandler {
   }
 
   onBodySent (chunk) {
-    if (this.handler.onBodySent) return this.handler.onBodySent(chunk)
+    if (this.handler.onBodySent) {return this.handler.onBodySent(chunk)}
   }
 
   static [kRetryHandlerDefaultRetry] (err, { state, opts }, cb) {
@@ -26788,116 +26724,116 @@ const utils_1 = __nccwpck_require__(172);
 // C headers
 var ERROR;
 (function (ERROR) {
-    ERROR[ERROR["OK"] = 0] = "OK";
-    ERROR[ERROR["INTERNAL"] = 1] = "INTERNAL";
-    ERROR[ERROR["STRICT"] = 2] = "STRICT";
-    ERROR[ERROR["LF_EXPECTED"] = 3] = "LF_EXPECTED";
-    ERROR[ERROR["UNEXPECTED_CONTENT_LENGTH"] = 4] = "UNEXPECTED_CONTENT_LENGTH";
-    ERROR[ERROR["CLOSED_CONNECTION"] = 5] = "CLOSED_CONNECTION";
-    ERROR[ERROR["INVALID_METHOD"] = 6] = "INVALID_METHOD";
-    ERROR[ERROR["INVALID_URL"] = 7] = "INVALID_URL";
-    ERROR[ERROR["INVALID_CONSTANT"] = 8] = "INVALID_CONSTANT";
-    ERROR[ERROR["INVALID_VERSION"] = 9] = "INVALID_VERSION";
-    ERROR[ERROR["INVALID_HEADER_TOKEN"] = 10] = "INVALID_HEADER_TOKEN";
-    ERROR[ERROR["INVALID_CONTENT_LENGTH"] = 11] = "INVALID_CONTENT_LENGTH";
-    ERROR[ERROR["INVALID_CHUNK_SIZE"] = 12] = "INVALID_CHUNK_SIZE";
-    ERROR[ERROR["INVALID_STATUS"] = 13] = "INVALID_STATUS";
-    ERROR[ERROR["INVALID_EOF_STATE"] = 14] = "INVALID_EOF_STATE";
-    ERROR[ERROR["INVALID_TRANSFER_ENCODING"] = 15] = "INVALID_TRANSFER_ENCODING";
-    ERROR[ERROR["CB_MESSAGE_BEGIN"] = 16] = "CB_MESSAGE_BEGIN";
-    ERROR[ERROR["CB_HEADERS_COMPLETE"] = 17] = "CB_HEADERS_COMPLETE";
-    ERROR[ERROR["CB_MESSAGE_COMPLETE"] = 18] = "CB_MESSAGE_COMPLETE";
-    ERROR[ERROR["CB_CHUNK_HEADER"] = 19] = "CB_CHUNK_HEADER";
-    ERROR[ERROR["CB_CHUNK_COMPLETE"] = 20] = "CB_CHUNK_COMPLETE";
-    ERROR[ERROR["PAUSED"] = 21] = "PAUSED";
-    ERROR[ERROR["PAUSED_UPGRADE"] = 22] = "PAUSED_UPGRADE";
-    ERROR[ERROR["PAUSED_H2_UPGRADE"] = 23] = "PAUSED_H2_UPGRADE";
-    ERROR[ERROR["USER"] = 24] = "USER";
+    ERROR[ERROR.OK = 0] = "OK";
+    ERROR[ERROR.INTERNAL = 1] = "INTERNAL";
+    ERROR[ERROR.STRICT = 2] = "STRICT";
+    ERROR[ERROR.LF_EXPECTED = 3] = "LF_EXPECTED";
+    ERROR[ERROR.UNEXPECTED_CONTENT_LENGTH = 4] = "UNEXPECTED_CONTENT_LENGTH";
+    ERROR[ERROR.CLOSED_CONNECTION = 5] = "CLOSED_CONNECTION";
+    ERROR[ERROR.INVALID_METHOD = 6] = "INVALID_METHOD";
+    ERROR[ERROR.INVALID_URL = 7] = "INVALID_URL";
+    ERROR[ERROR.INVALID_CONSTANT = 8] = "INVALID_CONSTANT";
+    ERROR[ERROR.INVALID_VERSION = 9] = "INVALID_VERSION";
+    ERROR[ERROR.INVALID_HEADER_TOKEN = 10] = "INVALID_HEADER_TOKEN";
+    ERROR[ERROR.INVALID_CONTENT_LENGTH = 11] = "INVALID_CONTENT_LENGTH";
+    ERROR[ERROR.INVALID_CHUNK_SIZE = 12] = "INVALID_CHUNK_SIZE";
+    ERROR[ERROR.INVALID_STATUS = 13] = "INVALID_STATUS";
+    ERROR[ERROR.INVALID_EOF_STATE = 14] = "INVALID_EOF_STATE";
+    ERROR[ERROR.INVALID_TRANSFER_ENCODING = 15] = "INVALID_TRANSFER_ENCODING";
+    ERROR[ERROR.CB_MESSAGE_BEGIN = 16] = "CB_MESSAGE_BEGIN";
+    ERROR[ERROR.CB_HEADERS_COMPLETE = 17] = "CB_HEADERS_COMPLETE";
+    ERROR[ERROR.CB_MESSAGE_COMPLETE = 18] = "CB_MESSAGE_COMPLETE";
+    ERROR[ERROR.CB_CHUNK_HEADER = 19] = "CB_CHUNK_HEADER";
+    ERROR[ERROR.CB_CHUNK_COMPLETE = 20] = "CB_CHUNK_COMPLETE";
+    ERROR[ERROR.PAUSED = 21] = "PAUSED";
+    ERROR[ERROR.PAUSED_UPGRADE = 22] = "PAUSED_UPGRADE";
+    ERROR[ERROR.PAUSED_H2_UPGRADE = 23] = "PAUSED_H2_UPGRADE";
+    ERROR[ERROR.USER = 24] = "USER";
 })(ERROR = exports.ERROR || (exports.ERROR = {}));
 var TYPE;
 (function (TYPE) {
-    TYPE[TYPE["BOTH"] = 0] = "BOTH";
-    TYPE[TYPE["REQUEST"] = 1] = "REQUEST";
-    TYPE[TYPE["RESPONSE"] = 2] = "RESPONSE";
+    TYPE[TYPE.BOTH = 0] = "BOTH";
+    TYPE[TYPE.REQUEST = 1] = "REQUEST";
+    TYPE[TYPE.RESPONSE = 2] = "RESPONSE";
 })(TYPE = exports.TYPE || (exports.TYPE = {}));
 var FLAGS;
 (function (FLAGS) {
-    FLAGS[FLAGS["CONNECTION_KEEP_ALIVE"] = 1] = "CONNECTION_KEEP_ALIVE";
-    FLAGS[FLAGS["CONNECTION_CLOSE"] = 2] = "CONNECTION_CLOSE";
-    FLAGS[FLAGS["CONNECTION_UPGRADE"] = 4] = "CONNECTION_UPGRADE";
-    FLAGS[FLAGS["CHUNKED"] = 8] = "CHUNKED";
-    FLAGS[FLAGS["UPGRADE"] = 16] = "UPGRADE";
-    FLAGS[FLAGS["CONTENT_LENGTH"] = 32] = "CONTENT_LENGTH";
-    FLAGS[FLAGS["SKIPBODY"] = 64] = "SKIPBODY";
-    FLAGS[FLAGS["TRAILING"] = 128] = "TRAILING";
+    FLAGS[FLAGS.CONNECTION_KEEP_ALIVE = 1] = "CONNECTION_KEEP_ALIVE";
+    FLAGS[FLAGS.CONNECTION_CLOSE = 2] = "CONNECTION_CLOSE";
+    FLAGS[FLAGS.CONNECTION_UPGRADE = 4] = "CONNECTION_UPGRADE";
+    FLAGS[FLAGS.CHUNKED = 8] = "CHUNKED";
+    FLAGS[FLAGS.UPGRADE = 16] = "UPGRADE";
+    FLAGS[FLAGS.CONTENT_LENGTH = 32] = "CONTENT_LENGTH";
+    FLAGS[FLAGS.SKIPBODY = 64] = "SKIPBODY";
+    FLAGS[FLAGS.TRAILING = 128] = "TRAILING";
     // 1 << 8 is unused
-    FLAGS[FLAGS["TRANSFER_ENCODING"] = 512] = "TRANSFER_ENCODING";
+    FLAGS[FLAGS.TRANSFER_ENCODING = 512] = "TRANSFER_ENCODING";
 })(FLAGS = exports.FLAGS || (exports.FLAGS = {}));
 var LENIENT_FLAGS;
 (function (LENIENT_FLAGS) {
-    LENIENT_FLAGS[LENIENT_FLAGS["HEADERS"] = 1] = "HEADERS";
-    LENIENT_FLAGS[LENIENT_FLAGS["CHUNKED_LENGTH"] = 2] = "CHUNKED_LENGTH";
-    LENIENT_FLAGS[LENIENT_FLAGS["KEEP_ALIVE"] = 4] = "KEEP_ALIVE";
+    LENIENT_FLAGS[LENIENT_FLAGS.HEADERS = 1] = "HEADERS";
+    LENIENT_FLAGS[LENIENT_FLAGS.CHUNKED_LENGTH = 2] = "CHUNKED_LENGTH";
+    LENIENT_FLAGS[LENIENT_FLAGS.KEEP_ALIVE = 4] = "KEEP_ALIVE";
 })(LENIENT_FLAGS = exports.LENIENT_FLAGS || (exports.LENIENT_FLAGS = {}));
 var METHODS;
 (function (METHODS) {
-    METHODS[METHODS["DELETE"] = 0] = "DELETE";
-    METHODS[METHODS["GET"] = 1] = "GET";
-    METHODS[METHODS["HEAD"] = 2] = "HEAD";
-    METHODS[METHODS["POST"] = 3] = "POST";
-    METHODS[METHODS["PUT"] = 4] = "PUT";
+    METHODS[METHODS.DELETE = 0] = "DELETE";
+    METHODS[METHODS.GET = 1] = "GET";
+    METHODS[METHODS.HEAD = 2] = "HEAD";
+    METHODS[METHODS.POST = 3] = "POST";
+    METHODS[METHODS.PUT = 4] = "PUT";
     /* pathological */
-    METHODS[METHODS["CONNECT"] = 5] = "CONNECT";
-    METHODS[METHODS["OPTIONS"] = 6] = "OPTIONS";
-    METHODS[METHODS["TRACE"] = 7] = "TRACE";
+    METHODS[METHODS.CONNECT = 5] = "CONNECT";
+    METHODS[METHODS.OPTIONS = 6] = "OPTIONS";
+    METHODS[METHODS.TRACE = 7] = "TRACE";
     /* WebDAV */
-    METHODS[METHODS["COPY"] = 8] = "COPY";
-    METHODS[METHODS["LOCK"] = 9] = "LOCK";
-    METHODS[METHODS["MKCOL"] = 10] = "MKCOL";
-    METHODS[METHODS["MOVE"] = 11] = "MOVE";
-    METHODS[METHODS["PROPFIND"] = 12] = "PROPFIND";
-    METHODS[METHODS["PROPPATCH"] = 13] = "PROPPATCH";
-    METHODS[METHODS["SEARCH"] = 14] = "SEARCH";
-    METHODS[METHODS["UNLOCK"] = 15] = "UNLOCK";
-    METHODS[METHODS["BIND"] = 16] = "BIND";
-    METHODS[METHODS["REBIND"] = 17] = "REBIND";
-    METHODS[METHODS["UNBIND"] = 18] = "UNBIND";
-    METHODS[METHODS["ACL"] = 19] = "ACL";
+    METHODS[METHODS.COPY = 8] = "COPY";
+    METHODS[METHODS.LOCK = 9] = "LOCK";
+    METHODS[METHODS.MKCOL = 10] = "MKCOL";
+    METHODS[METHODS.MOVE = 11] = "MOVE";
+    METHODS[METHODS.PROPFIND = 12] = "PROPFIND";
+    METHODS[METHODS.PROPPATCH = 13] = "PROPPATCH";
+    METHODS[METHODS.SEARCH = 14] = "SEARCH";
+    METHODS[METHODS.UNLOCK = 15] = "UNLOCK";
+    METHODS[METHODS.BIND = 16] = "BIND";
+    METHODS[METHODS.REBIND = 17] = "REBIND";
+    METHODS[METHODS.UNBIND = 18] = "UNBIND";
+    METHODS[METHODS.ACL = 19] = "ACL";
     /* subversion */
-    METHODS[METHODS["REPORT"] = 20] = "REPORT";
-    METHODS[METHODS["MKACTIVITY"] = 21] = "MKACTIVITY";
-    METHODS[METHODS["CHECKOUT"] = 22] = "CHECKOUT";
-    METHODS[METHODS["MERGE"] = 23] = "MERGE";
+    METHODS[METHODS.REPORT = 20] = "REPORT";
+    METHODS[METHODS.MKACTIVITY = 21] = "MKACTIVITY";
+    METHODS[METHODS.CHECKOUT = 22] = "CHECKOUT";
+    METHODS[METHODS.MERGE = 23] = "MERGE";
     /* upnp */
     METHODS[METHODS["M-SEARCH"] = 24] = "M-SEARCH";
-    METHODS[METHODS["NOTIFY"] = 25] = "NOTIFY";
-    METHODS[METHODS["SUBSCRIBE"] = 26] = "SUBSCRIBE";
-    METHODS[METHODS["UNSUBSCRIBE"] = 27] = "UNSUBSCRIBE";
+    METHODS[METHODS.NOTIFY = 25] = "NOTIFY";
+    METHODS[METHODS.SUBSCRIBE = 26] = "SUBSCRIBE";
+    METHODS[METHODS.UNSUBSCRIBE = 27] = "UNSUBSCRIBE";
     /* RFC-5789 */
-    METHODS[METHODS["PATCH"] = 28] = "PATCH";
-    METHODS[METHODS["PURGE"] = 29] = "PURGE";
+    METHODS[METHODS.PATCH = 28] = "PATCH";
+    METHODS[METHODS.PURGE = 29] = "PURGE";
     /* CalDAV */
-    METHODS[METHODS["MKCALENDAR"] = 30] = "MKCALENDAR";
+    METHODS[METHODS.MKCALENDAR = 30] = "MKCALENDAR";
     /* RFC-2068, section 19.6.1.2 */
-    METHODS[METHODS["LINK"] = 31] = "LINK";
-    METHODS[METHODS["UNLINK"] = 32] = "UNLINK";
+    METHODS[METHODS.LINK = 31] = "LINK";
+    METHODS[METHODS.UNLINK = 32] = "UNLINK";
     /* icecast */
-    METHODS[METHODS["SOURCE"] = 33] = "SOURCE";
+    METHODS[METHODS.SOURCE = 33] = "SOURCE";
     /* RFC-7540, section 11.6 */
-    METHODS[METHODS["PRI"] = 34] = "PRI";
+    METHODS[METHODS.PRI = 34] = "PRI";
     /* RFC-2326 RTSP */
-    METHODS[METHODS["DESCRIBE"] = 35] = "DESCRIBE";
-    METHODS[METHODS["ANNOUNCE"] = 36] = "ANNOUNCE";
-    METHODS[METHODS["SETUP"] = 37] = "SETUP";
-    METHODS[METHODS["PLAY"] = 38] = "PLAY";
-    METHODS[METHODS["PAUSE"] = 39] = "PAUSE";
-    METHODS[METHODS["TEARDOWN"] = 40] = "TEARDOWN";
-    METHODS[METHODS["GET_PARAMETER"] = 41] = "GET_PARAMETER";
-    METHODS[METHODS["SET_PARAMETER"] = 42] = "SET_PARAMETER";
-    METHODS[METHODS["REDIRECT"] = 43] = "REDIRECT";
-    METHODS[METHODS["RECORD"] = 44] = "RECORD";
+    METHODS[METHODS.DESCRIBE = 35] = "DESCRIBE";
+    METHODS[METHODS.ANNOUNCE = 36] = "ANNOUNCE";
+    METHODS[METHODS.SETUP = 37] = "SETUP";
+    METHODS[METHODS.PLAY = 38] = "PLAY";
+    METHODS[METHODS.PAUSE = 39] = "PAUSE";
+    METHODS[METHODS.TEARDOWN = 40] = "TEARDOWN";
+    METHODS[METHODS.GET_PARAMETER = 41] = "GET_PARAMETER";
+    METHODS[METHODS.SET_PARAMETER = 42] = "SET_PARAMETER";
+    METHODS[METHODS.REDIRECT = 43] = "REDIRECT";
+    METHODS[METHODS.RECORD = 44] = "RECORD";
     /* RAOP */
-    METHODS[METHODS["FLUSH"] = 45] = "FLUSH";
+    METHODS[METHODS.FLUSH = 45] = "FLUSH";
 })(METHODS = exports.METHODS || (exports.METHODS = {}));
 exports.METHODS_HTTP = [
     METHODS.DELETE,
@@ -26966,9 +26902,9 @@ Object.keys(exports.METHOD_MAP).forEach((key) => {
 });
 var FINISH;
 (function (FINISH) {
-    FINISH[FINISH["SAFE"] = 0] = "SAFE";
-    FINISH[FINISH["SAFE_WITH_CB"] = 1] = "SAFE_WITH_CB";
-    FINISH[FINISH["UNSAFE"] = 2] = "UNSAFE";
+    FINISH[FINISH.SAFE = 0] = "SAFE";
+    FINISH[FINISH.SAFE_WITH_CB = 1] = "SAFE_WITH_CB";
+    FINISH[FINISH.UNSAFE = 2] = "UNSAFE";
 })(FINISH = exports.FINISH || (exports.FINISH = {}));
 exports.ALPHA = [];
 for (let i = 'A'.charCodeAt(0); i <= 'Z'.charCodeAt(0); i++) {
@@ -27041,15 +26977,15 @@ exports.MAJOR = exports.NUM_MAP;
 exports.MINOR = exports.MAJOR;
 var HEADER_STATE;
 (function (HEADER_STATE) {
-    HEADER_STATE[HEADER_STATE["GENERAL"] = 0] = "GENERAL";
-    HEADER_STATE[HEADER_STATE["CONNECTION"] = 1] = "CONNECTION";
-    HEADER_STATE[HEADER_STATE["CONTENT_LENGTH"] = 2] = "CONTENT_LENGTH";
-    HEADER_STATE[HEADER_STATE["TRANSFER_ENCODING"] = 3] = "TRANSFER_ENCODING";
-    HEADER_STATE[HEADER_STATE["UPGRADE"] = 4] = "UPGRADE";
-    HEADER_STATE[HEADER_STATE["CONNECTION_KEEP_ALIVE"] = 5] = "CONNECTION_KEEP_ALIVE";
-    HEADER_STATE[HEADER_STATE["CONNECTION_CLOSE"] = 6] = "CONNECTION_CLOSE";
-    HEADER_STATE[HEADER_STATE["CONNECTION_UPGRADE"] = 7] = "CONNECTION_UPGRADE";
-    HEADER_STATE[HEADER_STATE["TRANSFER_ENCODING_CHUNKED"] = 8] = "TRANSFER_ENCODING_CHUNKED";
+    HEADER_STATE[HEADER_STATE.GENERAL = 0] = "GENERAL";
+    HEADER_STATE[HEADER_STATE.CONNECTION = 1] = "CONNECTION";
+    HEADER_STATE[HEADER_STATE.CONTENT_LENGTH = 2] = "CONTENT_LENGTH";
+    HEADER_STATE[HEADER_STATE.TRANSFER_ENCODING = 3] = "TRANSFER_ENCODING";
+    HEADER_STATE[HEADER_STATE.UPGRADE = 4] = "UPGRADE";
+    HEADER_STATE[HEADER_STATE.CONNECTION_KEEP_ALIVE = 5] = "CONNECTION_KEEP_ALIVE";
+    HEADER_STATE[HEADER_STATE.CONNECTION_CLOSE = 6] = "CONNECTION_CLOSE";
+    HEADER_STATE[HEADER_STATE.CONNECTION_UPGRADE = 7] = "CONNECTION_UPGRADE";
+    HEADER_STATE[HEADER_STATE.TRANSFER_ENCODING_CHUNKED = 8] = "TRANSFER_ENCODING_CHUNKED";
 })(HEADER_STATE = exports.HEADER_STATE || (exports.HEADER_STATE = {}));
 exports.SPECIAL_HEADERS = {
     'connection': HEADER_STATE.CONNECTION,
@@ -30086,7 +30022,7 @@ function fireEvent (e, target, eventConstructor = Event, eventInitDict) {
   // 2. Let event be the result of creating an event given eventConstructor,
   //    in the relevant realm of target.
   // 3. Initialize event’s type attribute to e.
-  const event = new eventConstructor(e, eventInitDict) // eslint-disable-line new-cap
+  const event = new eventConstructor(e, eventInitDict)  
 
   // 4. Initialize any other IDL attributes of event as described in the
   //    invocation of this algorithm.
@@ -31375,7 +31311,7 @@ const StreamSearch = __nccwpck_require__(4136)
 
 const B_DCRLF = Buffer.from('\r\n\r\n')
 const RE_CRLF = /\r\n/g
-const RE_HDR = /^([^:]+):[ \t]?([\x00-\xFF]+)?$/ // eslint-disable-line no-control-regex
+const RE_HDR = /^([^:]+):[ \t]?([\x00-\xFF]+)?$/  
 
 function HeaderParser (cfg) {
   EventEmitter.call(this)
@@ -31437,7 +31373,7 @@ HeaderParser.prototype._parseHeader = function () {
   const len = lines.length
   let m, h
 
-  for (var i = 0; i < len; ++i) { // eslint-disable-line no-var
+  for (var i = 0; i < len; ++i) {  
     if (lines[i].length === 0) { continue }
     if (lines[i][0] === '\t' || lines[i][0] === ' ') {
       // folded header content
@@ -31557,7 +31493,7 @@ function SBMH (needle) {
 
   // Populate occurrence table with analysis of the needle,
   // ignoring last letter.
-  for (var i = 0; i < needleLength - 1; ++i) { // eslint-disable-line no-var
+  for (var i = 0; i < needleLength - 1; ++i) {  
     this._occ[needle[i]] = needleLength - 1 - i
   }
 }
@@ -31715,7 +31651,7 @@ SBMH.prototype._sbmh_lookup_char = function (data, pos) {
 }
 
 SBMH.prototype._sbmh_memcmp = function (data, pos, len) {
-  for (var i = 0; i < len; ++i) { // eslint-disable-line no-var
+  for (var i = 0; i < len; ++i) {  
     if (this._sbmh_lookup_char(data, pos + i) !== this._needle[i]) { return false }
   }
   return true
@@ -32156,7 +32092,7 @@ function UrlEncoded (boy, cfg) {
   this.fieldsLimit = getLimit(limits, 'fields', Infinity)
 
   let charset
-  for (var i = 0, len = parsedConType.length; i < len; ++i) { // eslint-disable-line no-var
+  for (var i = 0, len = parsedConType.length; i < len; ++i) {  
     if (Array.isArray(parsedConType[i]) &&
         RE_CHARSET.test(parsedConType[i][0])) {
       charset = parsedConType[i][1].toLowerCase()
@@ -32401,7 +32337,7 @@ module.exports = Decoder
 
 module.exports = function basename (path) {
   if (typeof path !== 'string') { return '' }
-  for (var i = path.length - 1; i >= 0; --i) { // eslint-disable-line no-var
+  for (var i = path.length - 1; i >= 0; --i) {  
     switch (path.charCodeAt(i)) {
       case 0x2F: // '/'
       case 0x5C: // '\'
@@ -32565,7 +32501,7 @@ module.exports = function getLimit (limits, name, defaultLimit) {
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
-/* eslint-disable object-property-newline */
+ 
 
 
 const decodeText = __nccwpck_require__(2747)
@@ -32691,7 +32627,7 @@ function parseParams (str) {
   let tmp = ''
   const len = str.length
 
-  for (var i = 0; i < len; ++i) { // eslint-disable-line no-var
+  for (var i = 0; i < len; ++i) {  
     const char = str[i]
     if (char === '\\' && inquote) {
       if (escaping) { escaping = false } else {
@@ -32827,6 +32763,17 @@ module.exports = parseParams
 /******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
@@ -32836,6 +32783,13 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
+// ESM COMPAT FLAG
+__nccwpck_require__.r(__webpack_exports__);
+
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  install: () => (/* reexport */ install)
+});
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(7484);
@@ -33096,9 +33050,9 @@ const install = async () => {
     }
 };
 
-;// CONCATENATED MODULE: ./src/action/index.ts
+;// CONCATENATED MODULE: ./src/lib/index.ts
 
-install();
+
 
 })();
 

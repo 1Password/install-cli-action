@@ -22,8 +22,3 @@ export const install = async (): Promise<void> => {
 		}
 	}
 };
-
-// Only run if this is the entry point (not when imported)
-if (require.main === module) {
-	void install();
-}
