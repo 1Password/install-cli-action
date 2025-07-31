@@ -1,0 +1,14 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"outDir": "dist-lib",
+		"rootDir": "src",
+		"target": "ES2022",
+		"module": "ESNext",
+		"declaration": true,
+		"noEmit": false,
+		"emitDeclarationOnly": false
+	},
+	"include": ["src/lib/**/*", "src/cli-installer/**/*", "src/version/**/*"],
+	"exclude": ["src/**/*.test.ts"]
+}

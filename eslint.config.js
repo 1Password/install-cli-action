@@ -6,6 +6,7 @@ export default defineConfig([
 		ignores: [
 			"coverage/",
 			"dist/",
+			"dist-lib/",
 			"node_modules/",
 			"eslint.config.js",
 			"jest.config.js",

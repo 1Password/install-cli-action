@@ -1,12 +1,9 @@
 import * as core from "@actions/core";
 
-import { newCliInstaller } from "./cli-installer";
-import { VersionResolver } from "./version";
+import { newCliInstaller } from "../cli-installer";
+import { VersionResolver } from "../version";
 
-/**
- * Entry point for the GitHub Action.
- */
-const run = async (): Promise<void> => {
+export const install = async (): Promise<void> => {
 	try {
 		const versionResolver = new VersionResolver(core.getInput("version"));
 		await versionResolver.resolve();
@@ -22,5 +19,3 @@ const run = async (): Promise<void> => {
 		}
 	}
 };
-// eslint-disable-next-line
-run();

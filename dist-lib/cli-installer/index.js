@@ -1,0 +1,1 @@
+export { newCliInstaller } from "./installer";

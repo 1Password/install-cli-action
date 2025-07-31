@@ -32888,14 +32888,11 @@ class VersionResolver {
 ;// CONCATENATED MODULE: ./src/version/index.ts
 
 
-;// CONCATENATED MODULE: ./src/index.ts
+;// CONCATENATED MODULE: ./src/lib/index.ts
 
 
 
-/**
- * Entry point for the GitHub Action.
- */
-const run = async () => {
+const install = async () => {
     try {
         const versionResolver = new VersionResolver(core.getInput("version"));
         await versionResolver.resolve();
@@ -32913,6 +32910,11 @@ const run = async () => {
         }
     }
 };
-// eslint-disable-next-line
-run();
+
+;// CONCATENATED MODULE: ./src/action/index.ts
+
+/**
+ * Entry point for the GitHub Action.
+ */
+void install();
 

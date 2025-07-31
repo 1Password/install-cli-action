@@ -4,8 +4,17 @@
 	"description": "Install 1Password CLI into your GitHub Actions jobs",
 	"main": "dist/index.js",
 	"type": "module",
+	"types": "dist-lib/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist-lib/index.js",
+			"require": "./dist-lib/index.js"
+		}
+	},
 	"scripts": {
-		"build": "ncc build ./src/index.ts",
+		"build:lib": "tsc -p tsconfig.build.json",
+		"build:action": "ncc build src/action/index.ts -o dist",
+		"build": "npm run build:lib && npm run build:action",
 		"format": "prettier",
 		"format:check": "npm run format -- --check ./",
 		"format:write": "npm run format -- --write ./",
