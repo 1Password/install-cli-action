@@ -8,7 +8,8 @@
 	"exports": {
 		".": {
 			"import": "./dist-lib/index.js",
-			"require": "./dist-lib/index.js"
+			"require": "./dist-lib/index.js",
+			"types": "./dist-lib/index.d.ts"
 		}
 	},
 	"scripts": {
