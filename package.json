@@ -10,6 +10,11 @@
 			"import": "./dist-lib/index.js",
 			"require": "./dist-lib/index.js",
 			"types": "./dist-lib/index.d.ts"
+		},
+		"./dist-lib/lib": {
+			"import": "./dist-lib/lib/index.js",
+			"require": "./dist-lib/lib/index.js",
+			"types": "./dist-lib/lib/index.d.ts"
 		}
 	},
 	"scripts": {
