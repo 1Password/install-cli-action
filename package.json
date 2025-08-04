@@ -39,6 +39,7 @@
 		"@actions/core": "^1.11.1",
 		"@actions/tool-cache": "^2.0.2",
 		"eslint": "^9.31.0",
+		"op-cli-installer": "github:1Password/op-cli-installer#vzt/v1",
 		"semver": "^7.7.2"
 	},
 	"devDependencies": {
