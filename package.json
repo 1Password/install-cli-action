@@ -37,10 +37,7 @@
 	"homepage": "https://github.com/1Password/install-cli-action#readme",
 	"dependencies": {
 		"@actions/core": "^1.11.1",
-		"@actions/tool-cache": "^2.0.2",
-		"eslint": "^9.31.0",
-		"op-cli-installer": "github:1Password/op-cli-installer#8ea4bf402c6385a90f6d2d98efe31ac845633412",
-		"semver": "^7.7.2"
+		"op-cli-installer": "github:1Password/op-cli-installer#8ea4bf402c6385a90f6d2d98efe31ac845633412"
 	},
 	"devDependencies": {
 		"@1password/eslint-config": "^8.1.0",
@@ -49,6 +46,7 @@
 		"@types/node": "^24.0.14",
 		"@types/semver": "^7.7.0",
 		"@vercel/ncc": "^0.38.3",
+		"eslint": "^9.31.0",
 		"husky": "^9.1.7",
 		"jest": "^30.0.4",
 		"lint-staged": "^16.1.2",
