@@ -32879,22 +32879,10 @@ const version_1 = __nccwpck_require__(8950);
 const cli_installer_1 = __nccwpck_require__(2846);
 // Installs the 1Password CLI on a GitHub Action runner.
 const installCliOnGithubActionRunner = async (version) => {
-    try {
-        const versionResolver = new version_1.VersionResolver(version ?? core.getInput("version"));
-        await versionResolver.resolve();
-        const installer = (0, cli_installer_1.newCliInstaller)(versionResolver.get());
-        await installer.installCli();
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            console.error("error:", error);
-            core.setFailed(error.message);
-        }
-        else {
-            console.error("Unknown error:", error);
-            core.setFailed("Unknown error occurred");
-        }
-    }
+    const versionResolver = new version_1.VersionResolver(version ?? core.getInput("version"));
+    await versionResolver.resolve();
+    const installer = (0, cli_installer_1.newCliInstaller)(versionResolver.get());
+    await installer.installCli();
 };
 exports.installCliOnGithubActionRunner = installCliOnGithubActionRunner;
 
