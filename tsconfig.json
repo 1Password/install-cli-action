@@ -1,8 +1,6 @@
 {
 	"compilerOptions": {
 		"allowJs": false,
-		"allowUnreachableCode": false,
-		"allowUnusedLabels": false,
 		"esModuleInterop": true,
 		"exactOptionalPropertyTypes": true,
 		"forceConsistentCasingInFileNames": true,

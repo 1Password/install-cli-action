@@ -9,12 +9,12 @@
 		"format": "prettier",
 		"format:check": "npm run format -- --check ./",
 		"format:write": "npm run format -- --write ./",
-		"lint": "eslint ./",
+		"lint": "eslint src/**/*.ts",
 		"lint:fix": "npm run lint -- --fix",
 		"prepare": "husky install",
 		"test": "jest",
 		"test:clearcache": "jest --clearCache",
-		"test:coverage": "npm run test -- --coverage",
+		"test:coverage": "npm run test -- --coverage --passWithNoTests",
 		"test:watch": "npm run test -- --watch",
 		"typecheck": "tsc",
 		"validate": "npm run format:check && npm run lint && npm run test:coverage && npm run typecheck && npm run build"
@@ -37,9 +37,7 @@
 	"homepage": "https://github.com/1Password/install-cli-action#readme",
 	"dependencies": {
 		"@actions/core": "^1.11.1",
-		"@actions/tool-cache": "^2.0.2",
-		"eslint": "^9.31.0",
-		"semver": "^7.7.2"
+		"op-cli-installer": "github:1Password/op-cli-installer#f3ef8d8e0651def3e5fe6234043f09b3298d2148"
 	},
 	"devDependencies": {
 		"@1password/eslint-config": "^8.1.0",
@@ -48,6 +46,7 @@
 		"@types/node": "^24.0.14",
 		"@types/semver": "^7.7.0",
 		"@vercel/ncc": "^0.38.3",
+		"eslint": "^9.31.0",
 		"husky": "^9.1.7",
 		"jest": "^30.0.4",
 		"lint-staged": "^16.1.2",
