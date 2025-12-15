@@ -1,5 +1,6 @@
 import * as core from "@actions/core";
-import { installCliOnGithubActionRunner } from "op-cli-installer";
+
+import { installCliOnGithubActionRunner } from "./op-cli-installer";
 
 /**
  * Entry point for the GitHub Action.
