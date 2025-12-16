@@ -37,7 +37,7 @@
 	"homepage": "https://github.com/1Password/install-cli-action#readme",
 	"dependencies": {
 		"@actions/core": "^1.11.1",
-		"op-cli-installer": "github:1Password/op-cli-installer#f3ef8d8e0651def3e5fe6234043f09b3298d2148"
+		"@actions/tool-cache": "^2.0.2"
 	},
 	"devDependencies": {
 		"@1password/eslint-config": "^8.1.0",
