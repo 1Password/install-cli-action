@@ -46,7 +46,7 @@ You can perform the action on Linux, macOS, and Windows runners.
 ## 💙 Community & Support
 
 - File an [issue](https://github.com/1Password/install-cli-action/issues) for bugs and feature requests.
-- Join the [Developer Slack workspace](https://join.slack.com/t/1password-devs/shared_invite/zt-1halo11ps-6o9pEv96xZ3LtX_VE0fJQA).
+- Join the [Developer Slack workspace](https://developer.1password.com/joinslack).
 - Subscribe to the [Developer Newsletter](https://1password.com/dev-subscribe/).
 
 ## 🔐 Security
