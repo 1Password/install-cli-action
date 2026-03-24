@@ -36,11 +36,11 @@
 	},
 	"homepage": "https://github.com/1Password/install-cli-action#readme",
 	"dependencies": {
-		"@actions/core": "^1.11.1",
-		"@actions/tool-cache": "^2.0.2"
+		"@actions/core": "^3.0.0",
+		"@actions/tool-cache": "^4.0.0"
 	},
 	"devDependencies": {
-		"@1password/eslint-config": "^8.1.0",
+		"@1password/eslint-config": "^9.0.0",
 		"@1password/prettier-config": "^1.2.0",
 		"@types/jest": "^30.0.0",
 		"@types/node": "^24.0.14",
@@ -52,6 +52,11 @@
 		"lint-staged": "^16.1.2",
 		"ts-jest": "^29.4.0",
 		"typescript": "^5.8.3"
+	},
+	"overrides": {
+		"eslint-plugin-sonarjs": {
+			"minimatch": "9.0.7"
+		}
 	},
 	"prettier": "@1password/prettier-config"
 }
