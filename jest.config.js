@@ -18,6 +18,10 @@ const jestConfig = {
 			},
 		],
 	},
+	moduleNameMapper: {
+		"^@actions/core$": "<rootDir>/test/mocks/@actions-core.cjs",
+		"^@actions/tool-cache$": "<rootDir>/test/mocks/@actions-tool-cache.cjs",
+	},
 	verbose: true,
 };
 
