@@ -18,14 +18,14 @@ To install the latest version of the 1Password CLI: \
 
 ```yaml
 - name: Install 1Password CLI
-  uses: 1password/install-cli-action@v2
+  uses: 1password/install-cli-action@v3
 ```
 
 To install the latest beta version (i.e. `latest-beta`) of the 1Password CLI:
 
 ```yaml
 - name: Install 1Password CLI
-  uses: 1password/install-cli-action@v2
+  uses: 1password/install-cli-action@v3
   with:
     version: latest-beta
 ```
@@ -34,7 +34,7 @@ To install a specific version of the 1Password CLI:
 
 ```yaml
 - name: Install 1Password CLI
-  uses: 1password/install-cli-action@v2
+  uses: 1password/install-cli-action@v3
   with:
     version: 2.31.1
 ```
