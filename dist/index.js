@@ -34544,7 +34544,7 @@ class CliInstaller {
 const execFileAsync = (0,external_util_.promisify)(external_child_process_namespaceObject.execFile);
 // 1Password's code-signing GPG key fingerprint. See
 // https://www.1password.dev/cli/verify.
-const ONEPASSWORD_GPG_KEY_FINGERPRINT = "3FEF9748469ADBE15DA7CA80AC2D62742012EA22";
+const ONEPASSWORD_GPG_KEY_FINGERPRINT = "3FEF9748469ADBE15DA7CA80AC2D62742012EA23";
 // Bundled 1Password code-signing public key `linux-signing-key.asc` in
 // this directory. Bundled to avoid a runtime keyserver/URL dependency.
 // Source: https://downloads.1password.com/linux/keys/1password.asc
