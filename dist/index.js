@@ -34622,7 +34622,7 @@ const APPLE_DEVELOPER_TEAM_ID = "2BUA8C4S2C";
 // Append-only: old certs stay listed so historical `op` versions still verify.
 // See https://www.1password.dev/cli/verify.
 const ALLOWED_MACOS_SIGNING_CERT_FINGERPRINTS = [
-    "CAB578061B0209FB70934DA344EF6FEBCD3279B1C074C54B0D7D555743B9D89F",
+    "CAB578061B0209FB70934DA344EF6FEBCD3279B1C074C54B0D7D555743B9D810",
     "141DD87B2B231211F1440849798007DF621DE6EB3DAB985BC964EE9704C4A1C1",
 ];
 const defaultPkgutilRunner = async (pkgPath) => {
@@ -34718,7 +34718,7 @@ class MacOsInstaller extends CliInstaller {
 const windows_signature_execFileAsync = (0,external_util_.promisify)(external_child_process_namespaceObject.execFile);
 // Identifying field of 1Password's Authenticode signing cert for op.exe.
 // See https://www.1password.dev/cli/verify.
-const WINDOWS_SIGNER_SUBJECT_CN = "AgilebitsWrong";
+const WINDOWS_SIGNER_SUBJECT_CN = "Agilebits";
 const defaultPowerShellRunner = async (script) => {
     const { stdout } = await windows_signature_execFileAsync("powershell.exe", [
         "-NoProfile",
