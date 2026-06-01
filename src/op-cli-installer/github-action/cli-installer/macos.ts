@@ -12,27 +12,31 @@ import {
 	type SupportedPlatform,
 } from "./cli-installer";
 import { type Installer } from "./installer";
+import { verifyMacOsPackageSignature } from "./macos-signature";
 
 const execFileAsync = promisify(execFile);
 
+/** Installs the 1Password CLI on macOS runners. */
 export class MacOsInstaller extends CliInstaller implements Installer {
 	private readonly platform: SupportedPlatform = "darwin"; // Node.js platform identifier for macOS
 
-	public constructor(version: string) {
-		super(version);
-	}
-
+	/** Downloads, verifies, and installs the CLI for the configured version. */
 	public async installCli(): Promise<void> {
 		const urlBuilder = cliUrlBuilder[this.platform];
 		await this.install(urlBuilder(this.version));
 	}
 
-	// @actions/tool-cache package does not support .pkg files, so we need to handle the installation manually
+	// @actions/tool-cache package does not support .pkg files, so we need to handle the installation manually.
+	/** Downloads the pkg, verifies its signature, expands it, then adds the CLI to PATH. */
 	public override async install(downloadUrl: string): Promise<void> {
 		console.info(`Downloading 1Password CLI from: ${downloadUrl}`);
 		const pkgPath = await tc.downloadTool(downloadUrl);
 		const pkgWithExtension = `${pkgPath}.pkg`;
 		fs.renameSync(pkgPath, pkgWithExtension);
+
+		core.info("Verifying 1Password CLI signature");
+		await verifyMacOsPackageSignature(pkgWithExtension);
+		core.info("1Password CLI signature verified");
 
 		const expandDir = "temp-pkg";
 		await execFileAsync("pkgutil", ["--expand", pkgWithExtension, expandDir]);
