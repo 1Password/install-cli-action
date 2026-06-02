@@ -11,6 +11,8 @@
 
 ---
 
+*By accessing or using 1Password Developer Tools, you agree to the [API and SDK Terms of Service](https://1password.com/legal/api-sdk-terms-of-service).*
+
 # ✨ Quickstart
 
 To install the latest version of the 1Password CLI: \
@@ -54,6 +56,3 @@ You can perform the action on Linux, macOS, and Windows runners.
 1Password requests you practice responsible disclosure if you discover a vulnerability.
 
 Please file requests by sending an email to bugbounty@agilebits.com.
-
-*By accessing or using 1Password Developer Tools, you agree to the [API and SDK Terms of Service](https://1password.com/legal/api-sdk-terms-of-service).*
-
