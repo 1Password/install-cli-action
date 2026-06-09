@@ -11,7 +11,7 @@
 
 ---
 
-*This project is licensed under [MIT](./LICENSE). Use of the 1Password APIs and services accessed through these tools is governed by the [1Password API Terms of Service](https://1password.com/legal/api-sdk-terms-of-service).*
+_This project is licensed under [MIT](./LICENSE). Use of the 1Password APIs and services accessed through these tools is governed by the [1Password API Terms of Service](https://1password.com/legal/api-sdk-terms-of-service)._
 
 # ✨ Quickstart
 
@@ -20,14 +20,14 @@ To install the latest version of the 1Password CLI: \
 
 ```yaml
 - name: Install 1Password CLI
-  uses: 1password/install-cli-action@v3
+  uses: 1password/install-cli-action@v4
 ```
 
 To install the latest beta version (i.e. `latest-beta`) of the 1Password CLI:
 
 ```yaml
 - name: Install 1Password CLI
-  uses: 1password/install-cli-action@v3
+  uses: 1password/install-cli-action@v4
   with:
     version: latest-beta
 ```
@@ -36,7 +36,7 @@ To install a specific version of the 1Password CLI:
 
 ```yaml
 - name: Install 1Password CLI
-  uses: 1password/install-cli-action@v3
+  uses: 1password/install-cli-action@v4
   with:
     version: 2.31.1
 ```
