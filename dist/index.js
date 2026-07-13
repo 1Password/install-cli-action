@@ -33503,7 +33503,7 @@ function error(message, properties = {}) {
  * @param properties optional properties to add to the annotation.
  */
 function warning(message, properties = {}) {
-    issueCommand('warning', toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+    command_issueCommand('warning', utils_toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 /**
  * Adds a notice issue
@@ -33612,17 +33612,64 @@ var ReleaseChannel;
     ReleaseChannel["latestBeta"] = "latest-beta";
 })(ReleaseChannel || (ReleaseChannel = {}));
 
+// EXTERNAL MODULE: ./node_modules/semver/index.js
+var node_modules_semver = __nccwpck_require__(2088);
+var semver_default = /*#__PURE__*/__nccwpck_require__.n(node_modules_semver);
 ;// CONCATENATED MODULE: ./src/op-cli-installer/version/helper.ts
 
 
+
+const APP_UPDATES_URL = "https://app-updates.agilebits.com/latest";
+const DOCKER_HUB_TAGS_URL = "https://hub.docker.com/v2/repositories/1password/op/tags/?page_size=100&ordering=last_updated";
 // Returns the latest version of the 1Password CLI based on the specified channel.
+// app-updates.agilebits.com is the canonical source, but if unavailable fallback to Docker Hub.
 const getLatestVersion = async (channel) => {
     info(`Getting ${channel} version number`);
-    const res = await fetch("https://app-updates.agilebits.com/latest");
+    try {
+        return await getLatestVersionFromAppUpdates(channel);
+    }
+    catch (error) {
+        warning(`Could not resolve ${channel} version from app-updates.agilebits.com (${String(error)}); falling back to Docker Hub`);
+        return getLatestVersionFromDockerHub(channel);
+    }
+};
+// Resolves the latest version from the canonical app-updates.agilebits.com feed.
+const getLatestVersionFromAppUpdates = async (channel) => {
+    const res = await fetch(APP_UPDATES_URL);
+    if (!res.ok) {
+        throw new Error(`app-updates.agilebits.com returned status ${res.status}`);
+    }
     const json = (await res.json());
     const latestStable = json?.CLI2?.release?.version;
     const latestBeta = json?.CLI2?.beta?.version;
     const version = channel === ReleaseChannel.latestBeta ? latestBeta : latestStable;
+    if (!version) {
+        throw new Error(`No ${channel} versions found`);
+    }
+    return version;
+};
+// Resolves the latest version from the 1password/op Docker Hub image tags.
+const getLatestVersionFromDockerHub = async (channel) => {
+    const res = await fetch(DOCKER_HUB_TAGS_URL);
+    if (!res.ok) {
+        error(`Docker Hub returned status ${res.status}`);
+        throw new Error(`Docker Hub returned status ${res.status}`);
+    }
+    const json = (await res.json());
+    const tags = json?.results?.map((result) => result.name) ?? [];
+    const isBeta = channel === ReleaseChannel.latestBeta;
+    const candidates = tags.filter((tag) => isBeta
+        ? /^\d+\.\d+\.\d+-beta\.\d+$/.test(tag)
+        : /^\d+\.\d+\.\d+$/.test(tag));
+    // Beta tags like 2.37.0-beta.01 aren't valid semver so strip it only to sort them,
+    // then return the original tag unchanged.
+    const version = candidates
+        .map((tag) => ({
+        tag,
+        normalized: tag.replace(/-beta\.0*(\d+)/, "-beta.$1"),
+    }))
+        .filter(({ normalized }) => semver_default().valid(normalized))
+        .sort((a, b) => semver_default().rcompare(a.normalized, b.normalized))[0]?.tag;
     if (!version) {
         error(`No ${channel} versions found`);
         throw new Error(`No ${channel} versions found`);
@@ -33630,9 +33677,6 @@ const getLatestVersion = async (channel) => {
     return version;
 };
 
-// EXTERNAL MODULE: ./node_modules/semver/index.js
-var node_modules_semver = __nccwpck_require__(2088);
-var semver_default = /*#__PURE__*/__nccwpck_require__.n(node_modules_semver);
 ;// CONCATENATED MODULE: ./src/op-cli-installer/version/validate.ts
 
 

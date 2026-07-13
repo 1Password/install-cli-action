@@ -56,3 +56,34 @@ jobs:
           version: 2.19.0-beta.01
       - name: Check CLI version
         run: ./test/assert-version.sh 2.19.0-beta.01
+  use-docker-hub-fallback:
+    name: "Test Docker Hub fallback when app-updates is unavailable"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - channel: latest
+            versionPath: .CLI2.release.version
+          - channel: latest-beta
+            versionPath: .CLI2.beta.version
+    steps:
+      - uses: actions/checkout@v6
+      - name: Capture expected ${{ matrix.channel }} version from app-updates
+        id: expected
+        run: |
+          version=$(curl -s https://app-updates.agilebits.com/latest | jq -r '${{ matrix.versionPath }}')
+          echo "Expected ${{ matrix.channel }} version: $version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      # Blackhole only app-updates.agilebits.com. The download CDN (cache.agilebits.com)
+      # and Docker Hub stay reachable, so the primary source fails but the fallback works.
+      - name: Simulate an app-updates.agilebits.com outage
+        run: echo "127.0.0.1 app-updates.agilebits.com" | sudo tee -a /etc/hosts
+      - name: Install 1Password CLI (must resolve via the Docker Hub fallback)
+        uses: ./ # 1password/install-cli-action@<version>
+        with:
+          version: ${{ matrix.channel }}
+      - name: Assert the fallback resolved the same version app-updates would have
+        run: ./test/assert-version.sh "${{ steps.expected.outputs.version }}"
+      - name: Restore app-updates resolution
+        if: always()
+        run: sudo sed -i '/app-updates.agilebits.com/d' /etc/hosts
