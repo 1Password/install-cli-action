@@ -78,7 +78,6 @@ const getLatestVersionFromDockerHub = async (
 		signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
 	});
 	if (!res.ok) {
-		core.error(`Docker Hub returned status ${res.status}`);
 		throw new Error(`Docker Hub returned status ${res.status}`);
 	}
 
@@ -103,7 +102,6 @@ const getLatestVersionFromDockerHub = async (
 		.sort((a, b) => semver.rcompare(a.normalized, b.normalized))[0]?.tag;
 
 	if (!version) {
-		core.error(`No ${channel} versions found`);
 		throw new Error(`No ${channel} versions found`);
 	}
 

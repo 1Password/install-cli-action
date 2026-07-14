@@ -33773,7 +33773,6 @@ const getLatestVersionFromDockerHub = async (channel) => {
         signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     });
     if (!res.ok) {
-        error(`Docker Hub returned status ${res.status}`);
         throw new Error(`Docker Hub returned status ${res.status}`);
     }
     const json = (await res.json());
@@ -33792,7 +33791,6 @@ const getLatestVersionFromDockerHub = async (channel) => {
         .filter(({ normalized }) => semver_default().valid(normalized))
         .sort((a, b) => semver_default().rcompare(a.normalized, b.normalized))[0]?.tag;
     if (!version) {
-        error(`No ${channel} versions found`);
         throw new Error(`No ${channel} versions found`);
     }
     return version;

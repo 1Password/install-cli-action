@@ -10,7 +10,6 @@ export interface VersionResponse {
 	};
 }
 
-// As above, results is optional since the Docker Hub response is untrusted JSON.
 export interface DockerHubTagsResponse {
 	results?: { name: string }[];
 }
