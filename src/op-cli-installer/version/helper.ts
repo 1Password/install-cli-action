@@ -6,6 +6,7 @@ import {
 	ReleaseChannel,
 	type VersionResponse,
 } from "./constants";
+import { FALLBACK_VERSIONS } from "./fallback-versions";
 
 const APP_UPDATES_URL = "https://app-updates.agilebits.com/latest";
 const DOCKER_HUB_TAGS_URL =
@@ -23,13 +24,24 @@ export const getLatestVersion = async (
 	core.info(`Getting ${channel} version number`);
 	try {
 		return await getLatestVersionFromAppUpdates(channel);
-	} catch (error) {
+	} catch (appUpdatesError) {
 		core.warning(
 			`Could not resolve ${channel} version from app-updates.agilebits.com (${String(
-				error,
+				appUpdatesError,
 			)}); falling back to Docker Hub`,
 		);
-		return getLatestVersionFromDockerHub(channel);
+		try {
+			return await getLatestVersionFromDockerHub(channel);
+		} catch (dockerHubError) {
+			core.warning(
+				`Could not resolve ${channel} version from Docker Hub (${String(
+					dockerHubError,
+				)}); using the version baked in at build time`,
+			);
+
+			// Couldn't get the version from either source, so return the fallback version pinned at last build.
+			return FALLBACK_VERSIONS[channel];
+		}
 	}
 };
 

@@ -33709,7 +33709,14 @@ var ReleaseChannel;
 // EXTERNAL MODULE: ./node_modules/semver/index.js
 var node_modules_semver = __nccwpck_require__(2088);
 var semver_default = /*#__PURE__*/__nccwpck_require__.n(node_modules_semver);
+;// CONCATENATED MODULE: ./src/op-cli-installer/version/fallback-versions.ts
+const FALLBACK_VERSIONS = {
+    latest: "2.35.0",
+    "latest-beta": "2.37.0-beta.01",
+};
+
 ;// CONCATENATED MODULE: ./src/op-cli-installer/version/helper.ts
+
 
 
 
@@ -33726,9 +33733,16 @@ const getLatestVersion = async (channel) => {
     try {
         return await getLatestVersionFromAppUpdates(channel);
     }
-    catch (error) {
-        warning(`Could not resolve ${channel} version from app-updates.agilebits.com (${String(error)}); falling back to Docker Hub`);
-        return getLatestVersionFromDockerHub(channel);
+    catch (appUpdatesError) {
+        warning(`Could not resolve ${channel} version from app-updates.agilebits.com (${String(appUpdatesError)}); falling back to Docker Hub`);
+        try {
+            return await getLatestVersionFromDockerHub(channel);
+        }
+        catch (dockerHubError) {
+            warning(`Could not resolve ${channel} version from Docker Hub (${String(dockerHubError)}); using the version baked in at build time`);
+            // Couldn't get the version from either source, so return the fallback version pinned at last build.
+            return FALLBACK_VERSIONS[channel];
+        }
     }
 };
 // Resolves the latest version from the canonical app-updates.agilebits.com feed.

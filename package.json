@@ -17,6 +17,7 @@
 		"test:coverage": "npm run test -- --coverage --passWithNoTests",
 		"test:watch": "npm run test -- --watch",
 		"typecheck": "tsc",
+		"op-version": "node scripts/update-fallback-versions.mjs",
 		"validate": "npm run format:check && npm run lint && npm run test:coverage && npm run typecheck && npm run build"
 	},
 	"repository": {
