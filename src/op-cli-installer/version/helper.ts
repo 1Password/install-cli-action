@@ -11,6 +11,7 @@ import { FALLBACK_VERSIONS } from "./fallback-versions";
 const APP_UPDATES_URL = "https://app-updates.agilebits.com/latest";
 const DOCKER_HUB_TAGS_URL =
 	"https://hub.docker.com/v2/repositories/1password/op/tags/?page_size=100&ordering=last_updated";
+const FETCH_TIMEOUT_MS = 10_000;
 
 /**
  * Returns the latest version of the 1Password CLI for the given release channel.
@@ -49,7 +50,9 @@ export const getLatestVersion = async (
 const getLatestVersionFromAppUpdates = async (
 	channel: ReleaseChannel,
 ): Promise<string> => {
-	const res = await fetch(APP_UPDATES_URL);
+	const res = await fetch(APP_UPDATES_URL, {
+		signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+	});
 	if (!res.ok) {
 		throw new Error(`app-updates.agilebits.com returned status ${res.status}`);
 	}
@@ -71,7 +74,9 @@ const getLatestVersionFromAppUpdates = async (
 const getLatestVersionFromDockerHub = async (
 	channel: ReleaseChannel,
 ): Promise<string> => {
-	const res = await fetch(DOCKER_HUB_TAGS_URL);
+	const res = await fetch(DOCKER_HUB_TAGS_URL, {
+		signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+	});
 	if (!res.ok) {
 		core.error(`Docker Hub returned status ${res.status}`);
 		throw new Error(`Docker Hub returned status ${res.status}`);

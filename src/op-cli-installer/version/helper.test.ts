@@ -17,6 +17,7 @@ const dockerHubResponse = {
 		{ name: "2.35.0" },
 		{ name: "2.34.1" },
 		{ name: "2.37.0-beta.01" },
+		{ name: "2.37.0-beta.02" },
 		{ name: "2.36.0-beta.03" },
 	],
 };
@@ -68,7 +69,7 @@ describe("getLatestVersion", () => {
 			.mockResolvedValueOnce(okResponse(dockerHubResponse));
 
 		const version = await getLatestVersion(ReleaseChannel.latestBeta);
-		expect(version).toBe("2.37.0-beta.01");
+		expect(version).toBe("2.37.0-beta.02");
 	});
 
 	it("should fall back to Docker Hub when app-updates rejects", async () => {
