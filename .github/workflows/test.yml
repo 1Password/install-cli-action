@@ -87,3 +87,35 @@ jobs:
       - name: Restore app-updates resolution
         if: always()
         run: sudo sed -i '/app-updates.agilebits.com/d' /etc/hosts
+  use-baked-in-fallback:
+    name: "Test baked-in fallback when app-updates and Docker Hub are unavailable"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - channel: latest
+            key: latest
+          - channel: latest-beta
+            key: latestBeta
+    steps:
+      - uses: actions/checkout@v6
+      - name: Read expected baked-in ${{ matrix.channel }} version
+        id: expected
+        run: |
+          version=$(grep "ReleaseChannel.${{ matrix.key }}]" src/op-cli-installer/version/fallback-versions.ts | grep -oE '"[^"]+"' | tr -d '"')
+          echo "Expected baked-in ${{ matrix.channel }} version: $version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      # Blackhole both live sources so resolution must fall through to the pinned version
+      - name: Simulate an app-updates and Docker Hub outage
+        run: |
+          echo "127.0.0.1 app-updates.agilebits.com" | sudo tee -a /etc/hosts
+          echo "127.0.0.1 hub.docker.com" | sudo tee -a /etc/hosts
+      - name: Install 1Password CLI (must resolve via the baked-in fallback)
+        uses: ./ # 1password/install-cli-action@<version>
+        with:
+          version: ${{ matrix.channel }}
+      - name: Assert the baked-in version was installed
+        run: ./test/assert-version.sh "${{ steps.expected.outputs.version }}"
+      - name: Restore resolution
+        if: always()
+        run: sudo sed -i '/app-updates.agilebits.com/d;/hub.docker.com/d' /etc/hosts
