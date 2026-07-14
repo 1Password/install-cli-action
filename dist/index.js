@@ -33719,7 +33719,29 @@ const FALLBACK_VERSIONS = {
     [ReleaseChannel.latestBeta]: "2.37.0-beta.01",
 };
 
+;// CONCATENATED MODULE: ./src/op-cli-installer/version/validate.ts
+
+
+// Validates if the provided version type is a valid enum value or a valid semver version.
+const validateVersion = (input) => {
+    if (Object.values(ReleaseChannel).includes(input)) {
+        return;
+    }
+    // 1Password beta releases (aka 2.19.0-beta.01) are not semver compliant.
+    // According to semver, it should be "2.19.0-beta.1".
+    // That's why we need to normalize them before validating.
+    // Accepts valid semver versions like "2.18.0" or beta-releases like "2.19.0-beta.01"
+    // or versions with 'v' prefix like "v2.19.0"
+    const normalized = input.replace(/-beta\.0*(\d+)/, "-beta.$1");
+    const normInput = new (semver_default()).SemVer(normalized);
+    if (semver_default().valid(normInput)) {
+        return;
+    }
+    throw new Error(`Invalid version input: ${input}`);
+};
+
 ;// CONCATENATED MODULE: ./src/op-cli-installer/version/helper.ts
+
 
 
 
@@ -33765,6 +33787,7 @@ const getLatestVersionFromAppUpdates = async (channel) => {
     if (!version) {
         throw new Error(`No ${channel} versions found`);
     }
+    validateVersion(version);
     return version;
 };
 // Resolves the latest version from the 1password/op Docker Hub image tags.
@@ -33794,27 +33817,6 @@ const getLatestVersionFromDockerHub = async (channel) => {
         throw new Error(`No ${channel} versions found`);
     }
     return version;
-};
-
-;// CONCATENATED MODULE: ./src/op-cli-installer/version/validate.ts
-
-
-// Validates if the provided version type is a valid enum value or a valid semver version.
-const validateVersion = (input) => {
-    if (Object.values(ReleaseChannel).includes(input)) {
-        return;
-    }
-    // 1Password beta releases (aka 2.19.0-beta.01) are not semver compliant.
-    // According to semver, it should be "2.19.0-beta.1".
-    // That's why we need to normalize them before validating.
-    // Accepts valid semver versions like "2.18.0" or beta-releases like "2.19.0-beta.01"
-    // or versions with 'v' prefix like "v2.19.0"
-    const normalized = input.replace(/-beta\.0*(\d+)/, "-beta.$1");
-    const normInput = new (semver_default()).SemVer(normalized);
-    if (semver_default().valid(normInput)) {
-        return;
-    }
-    throw new Error(`Invalid version input: ${input}`);
 };
 
 ;// CONCATENATED MODULE: ./src/op-cli-installer/version/version-resolver.ts

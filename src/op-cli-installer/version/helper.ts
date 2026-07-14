@@ -7,6 +7,7 @@ import {
 	type VersionResponse,
 } from "./constants";
 import { FALLBACK_VERSIONS } from "./fallback-versions";
+import { validateVersion } from "./validate";
 
 const APP_UPDATES_URL = "https://app-updates.agilebits.com/latest";
 const DOCKER_HUB_TAGS_URL =
@@ -66,6 +67,8 @@ const getLatestVersionFromAppUpdates = async (
 	if (!version) {
 		throw new Error(`No ${channel} versions found`);
 	}
+
+	validateVersion(version);
 
 	return version;
 };
