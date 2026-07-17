@@ -254,6 +254,9 @@ class Range {
   }
 
   parseRange (range) {
+    // strip build metadata so it can't bleed into the version
+    range = range.replace(BUILDSTRIPRE, '')
+
     // memoize range parsing for performance.
     // this is a very hot path, and fully deterministic.
     const memoOpts =
@@ -379,12 +382,16 @@ const debug = __nccwpck_require__(1159)
 const SemVer = __nccwpck_require__(7163)
 const {
   safeRe: re,
+  src,
   t,
   comparatorTrimReplace,
   tildeTrimReplace,
   caretTrimReplace,
 } = __nccwpck_require__(5471)
 const { FLAG_INCLUDE_PRERELEASE, FLAG_LOOSE } = __nccwpck_require__(5101)
+
+// unbounded global build-metadata stripper used by parseRange
+const BUILDSTRIPRE = new RegExp(src[t.BUILD], 'g')
 
 const isNullSet = c => c.value === '<0.0.0-0'
 const isAny = c => c.value === ''
@@ -426,6 +433,11 @@ const parseComparator = (comp, options) => {
 
 const isX = id => !id || id.toLowerCase() === 'x' || id === '*'
 
+const invalidXRangeOrder = (M, m, p) => (
+  (isX(M) && !isX(m)) ||
+  (isX(m) && p && !isX(p))
+)
+
 // ~, ~> --> * (any, kinda silly)
 // ~2, ~2.x, ~2.x.x, ~>2, ~>2.x ~>2.x.x --> >=2.0.0 <3.0.0-0
 // ~2.0, ~2.0.x, ~>2.0, ~>2.0.x --> >=2.0.0 <2.1.0-0
@@ -443,6 +455,10 @@ const replaceTildes = (comp, options) => {
 
 const replaceTilde = (comp, options) => {
   const r = options.loose ? re[t.TILDELOOSE] : re[t.TILDE]
+  // if we're including prereleases in the match, then the lower bound is
+  // -0, the lowest possible prerelease value, just like x-ranges and carets.
+  // this keeps `~1.2` equivalent to the `1.2.x` x-range it's documented as.
+  const z = options.includePrerelease ? '-0' : ''
   return comp.replace(r, (_, M, m, p, pr) => {
     debug('tilde', comp, _, M, m, p, pr)
     let ret
@@ -450,10 +466,10 @@ const replaceTilde = (comp, options) => {
     if (isX(M)) {
       ret = ''
     } else if (isX(m)) {
-      ret = `>=${M}.0.0 <${+M + 1}.0.0-0`
+      ret = `>=${M}.0.0${z} <${+M + 1}.0.0-0`
     } else if (isX(p)) {
       // ~1.2 == >=1.2.0 <1.3.0-0
-      ret = `>=${M}.${m}.0 <${M}.${+m + 1}.0-0`
+      ret = `>=${M}.${m}.0${z} <${M}.${+m + 1}.0-0`
     } else if (pr) {
       debug('replaceTilde pr', pr)
       ret = `>=${M}.${m}.${p}-${pr
@@ -522,10 +538,10 @@ const replaceCaret = (comp, options) => {
       if (M === '0') {
         if (m === '0') {
           ret = `>=${M}.${m}.${p
-          }${z} <${M}.${m}.${+p + 1}-0`
+          } <${M}.${m}.${+p + 1}-0`
         } else {
           ret = `>=${M}.${m}.${p
-          }${z} <${M}.${+m + 1}.0-0`
+          } <${M}.${+m + 1}.0-0`
         }
       } else {
         ret = `>=${M}.${m}.${p
@@ -551,6 +567,10 @@ const replaceXRange = (comp, options) => {
   const r = options.loose ? re[t.XRANGELOOSE] : re[t.XRANGE]
   return comp.replace(r, (ret, gtlt, M, m, p, pr) => {
     debug('xRange', comp, ret, gtlt, M, m, p, pr)
+    if (invalidXRangeOrder(M, m, p)) {
+      return comp
+    }
+
     const xM = isX(M)
     const xm = xM || isX(m)
     const xp = xm || isX(p)
@@ -726,6 +746,22 @@ const { safeRe: re, t } = __nccwpck_require__(5471)
 
 const parseOptions = __nccwpck_require__(356)
 const { compareIdentifiers } = __nccwpck_require__(3348)
+
+const isPrereleaseIdentifier = (prerelease, identifier) => {
+  const identifiers = identifier.split('.')
+  if (identifiers.length > prerelease.length) {
+    return false
+  }
+
+  for (let i = 0; i < identifiers.length; i++) {
+    if (compareIdentifiers(prerelease[i], identifiers[i]) !== 0) {
+      return false
+    }
+  }
+
+  return true
+}
+
 class SemVer {
   constructor (version, options) {
     options = parseOptions(options)
@@ -1029,8 +1065,9 @@ class SemVer {
           if (identifierBase === false) {
             prerelease = [identifier]
           }
-          if (compareIdentifiers(this.prerelease[0], identifier) === 0) {
-            if (isNaN(this.prerelease[1])) {
+          if (isPrereleaseIdentifier(this.prerelease, identifier)) {
+            const prereleaseBase = this.prerelease[identifier.split('.').length]
+            if (isNaN(prereleaseBase)) {
               this.prerelease = prerelease
             }
           } else {
@@ -1540,6 +1577,61 @@ module.exports = sort
 
 /***/ }),
 
+/***/ 6114:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+
+
+const parse = __nccwpck_require__(6353)
+const constants = __nccwpck_require__(5101)
+const SemVer = __nccwpck_require__(7163)
+
+const truncate = (version, truncation, options) => {
+  if (!constants.RELEASE_TYPES.includes(truncation)) {
+    return null
+  }
+
+  const clonedVersion = cloneInputVersion(version, options)
+  return clonedVersion && doTruncation(clonedVersion, truncation)
+}
+
+const cloneInputVersion = (version, options) => {
+  const versionStringToParse = (
+    version instanceof SemVer ? version.version : version
+  )
+
+  return parse(versionStringToParse, options)
+}
+
+const doTruncation = (version, truncation) => {
+  if (isPrerelease(truncation)) {
+    return version.version
+  }
+
+  version.prerelease = []
+
+  switch (truncation) {
+    case 'major':
+      version.minor = 0
+      version.patch = 0
+      break
+    case 'minor':
+      version.patch = 0
+      break
+  }
+
+  return version.format()
+}
+
+const isPrerelease = (type) => {
+  return type.startsWith('pre')
+}
+
+module.exports = truncate
+
+
+/***/ }),
+
 /***/ 8780:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -1588,6 +1680,7 @@ const gte = __nccwpck_require__(1236)
 const lte = __nccwpck_require__(6717)
 const cmp = __nccwpck_require__(8646)
 const coerce = __nccwpck_require__(5385)
+const truncate = __nccwpck_require__(6114)
 const Comparator = __nccwpck_require__(9379)
 const Range = __nccwpck_require__(6782)
 const satisfies = __nccwpck_require__(8011)
@@ -1626,6 +1719,7 @@ module.exports = {
   lte,
   cmp,
   coerce,
+  truncate,
   Comparator,
   Range,
   satisfies,
@@ -1965,7 +2059,7 @@ createToken('LOOSE', `^${src[t.LOOSEPLAIN]}$`)
 createToken('GTLT', '((?:<|>)?=?)')
 
 // Something like "2.*" or "1.2.x".
-// Note that "x.x" is a valid xRange identifer, meaning "any version"
+// Note that "x.x" is a valid xRange identifier, meaning "any version"
 // Only the first item is strictly required.
 createToken('XRANGEIDENTIFIERLOOSE', `${src[t.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`)
 createToken('XRANGEIDENTIFIER', `${src[t.NUMERICIDENTIFIER]}|x|X|\\*`)
@@ -2557,7 +2651,7 @@ const simpleSubset = (sub, dom, options) => {
         if (higher === c && higher !== gt) {
           return false
         }
-      } else if (gt.operator === '>=' && !satisfies(gt.semver, String(c), options)) {
+      } else if (gt.operator === '>=' && !c.test(gt.semver)) {
         return false
       }
     }
@@ -2575,7 +2669,7 @@ const simpleSubset = (sub, dom, options) => {
         if (lower === c && lower !== lt) {
           return false
         }
-      } else if (lt.operator === '<=' && !satisfies(lt.semver, String(c), options)) {
+      } else if (lt.operator === '<=' && !c.test(lt.semver)) {
         return false
       }
     }
@@ -33503,7 +33597,7 @@ function error(message, properties = {}) {
  * @param properties optional properties to add to the annotation.
  */
 function warning(message, properties = {}) {
-    issueCommand('warning', toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+    command_issueCommand('warning', utils_toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 /**
  * Adds a notice issue
@@ -33612,27 +33706,19 @@ var ReleaseChannel;
     ReleaseChannel["latestBeta"] = "latest-beta";
 })(ReleaseChannel || (ReleaseChannel = {}));
 
-;// CONCATENATED MODULE: ./src/op-cli-installer/version/helper.ts
-
-
-// Returns the latest version of the 1Password CLI based on the specified channel.
-const getLatestVersion = async (channel) => {
-    info(`Getting ${channel} version number`);
-    const res = await fetch("https://app-updates.agilebits.com/latest");
-    const json = (await res.json());
-    const latestStable = json?.CLI2?.release?.version;
-    const latestBeta = json?.CLI2?.beta?.version;
-    const version = channel === ReleaseChannel.latestBeta ? latestBeta : latestStable;
-    if (!version) {
-        error(`No ${channel} versions found`);
-        throw new Error(`No ${channel} versions found`);
-    }
-    return version;
-};
-
 // EXTERNAL MODULE: ./node_modules/semver/index.js
 var node_modules_semver = __nccwpck_require__(2088);
 var semver_default = /*#__PURE__*/__nccwpck_require__.n(node_modules_semver);
+;// CONCATENATED MODULE: ./src/op-cli-installer/version/fallback-versions.ts
+// AUTO-GENERATED by scripts/update-fallback-versions.mjs — do not edit by hand.
+// Last-resort CLI versions, used only when both app-updates and Docker Hub are
+// unavailable. Refresh with `npm run op-version` (see release docs).
+
+const FALLBACK_VERSIONS = {
+    [ReleaseChannel.latest]: "2.35.0",
+    [ReleaseChannel.latestBeta]: "2.37.0-beta.01",
+};
+
 ;// CONCATENATED MODULE: ./src/op-cli-installer/version/validate.ts
 
 
@@ -33652,6 +33738,88 @@ const validateVersion = (input) => {
         return;
     }
     throw new Error(`Invalid version input: ${input}`);
+};
+
+;// CONCATENATED MODULE: ./src/op-cli-installer/version/helper.ts
+
+
+
+
+
+const APP_UPDATES_URL = "https://app-updates.agilebits.com/latest";
+const DOCKER_HUB_TAGS_URL = "https://hub.docker.com/v2/repositories/1password/op/tags/?page_size=100&ordering=last_updated";
+const FETCH_TIMEOUT_MS = 10_000;
+/**
+ * Returns the latest version of the 1Password CLI for the given release channel.
+ *
+ * app-updates.agilebits.com is the canonical source; if it is unavailable, this
+ * falls back to the 1password/op Docker Hub image tags.
+ */
+const getLatestVersion = async (channel) => {
+    info(`Getting ${channel} version number`);
+    try {
+        return await getLatestVersionFromAppUpdates(channel);
+    }
+    catch (appUpdatesError) {
+        warning(`Could not resolve ${channel} version from app-updates.agilebits.com (${String(appUpdatesError)}); falling back to Docker Hub`);
+        try {
+            return await getLatestVersionFromDockerHub(channel);
+        }
+        catch (dockerHubError) {
+            warning(`Could not resolve ${channel} version from Docker Hub (${String(dockerHubError)}); using the version baked in at build time`);
+            // Couldn't get the version from either source, so return the fallback version pinned at last build.
+            const fallbackVersion = FALLBACK_VERSIONS[channel];
+            validateVersion(fallbackVersion);
+            return fallbackVersion;
+        }
+    }
+};
+// Resolves the latest version from the canonical app-updates.agilebits.com feed.
+const getLatestVersionFromAppUpdates = async (channel) => {
+    const res = await fetch(APP_UPDATES_URL, {
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    });
+    if (!res.ok) {
+        throw new Error(`app-updates.agilebits.com returned status ${res.status}`);
+    }
+    const json = (await res.json());
+    const latestStable = json.CLI2?.release?.version;
+    const latestBeta = json.CLI2?.beta?.version;
+    const version = channel === ReleaseChannel.latestBeta ? latestBeta : latestStable;
+    if (!version) {
+        throw new Error(`No ${channel} versions found`);
+    }
+    validateVersion(version);
+    return version;
+};
+// Resolves the latest version from the 1password/op Docker Hub image tags.
+const getLatestVersionFromDockerHub = async (channel) => {
+    const res = await fetch(DOCKER_HUB_TAGS_URL, {
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    });
+    if (!res.ok) {
+        throw new Error(`Docker Hub returned status ${res.status}`);
+    }
+    const json = (await res.json());
+    const tags = json.results?.map((result) => result.name) ?? [];
+    const isBeta = channel === ReleaseChannel.latestBeta;
+    const candidates = tags.filter((tag) => isBeta
+        ? /^\d+\.\d+\.\d+-beta\.\d+$/.test(tag)
+        : /^\d+\.\d+\.\d+$/.test(tag));
+    // Beta tags like 2.37.0-beta.01 aren't valid semver so strip it only to sort them,
+    // then return the original tag unchanged.
+    const version = candidates
+        .map((tag) => ({
+        tag,
+        normalized: tag.replace(/-beta\.0*(\d+)/, "-beta.$1"),
+    }))
+        .filter(({ normalized }) => semver_default().valid(normalized))
+        .sort((a, b) => semver_default().rcompare(a.normalized, b.normalized))[0]?.tag;
+    if (!version) {
+        throw new Error(`No ${channel} versions found`);
+    }
+    validateVersion(version);
+    return version;
 };
 
 ;// CONCATENATED MODULE: ./src/op-cli-installer/version/version-resolver.ts

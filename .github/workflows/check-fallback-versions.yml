@@ -1,0 +1,24 @@
+on:
+  push:
+    branches: ["release/**"]
+name: Check fallback versions are fresh
+
+# Runs when a release branch is created/updated to check pinned CLI version
+jobs:
+  check-fallback-versions:
+    name: "Check baked-in fallback versions are up to date"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: npm ci
+      - name: Regenerate fallback versions
+        run: npm run op-version
+      - name: Fail if fallback-versions.ts is stale
+        run: |
+          if ! git diff --exit-code src/op-cli-installer/version/fallback-versions.ts; then
+            echo "::error::fallback-versions.ts is out of date. Run 'npm run op-version' and commit the result on this release branch."
+            exit 1
+          fi
