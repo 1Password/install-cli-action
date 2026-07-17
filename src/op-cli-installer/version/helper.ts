@@ -42,7 +42,9 @@ export const getLatestVersion = async (
 			);
 
 			// Couldn't get the version from either source, so return the fallback version pinned at last build.
-			return FALLBACK_VERSIONS[channel];
+			const fallbackVersion = FALLBACK_VERSIONS[channel];
+			validateVersion(fallbackVersion);
+			return fallbackVersion;
 		}
 	}
 };
@@ -107,6 +109,8 @@ const getLatestVersionFromDockerHub = async (
 	if (!version) {
 		throw new Error(`No ${channel} versions found`);
 	}
+
+	validateVersion(version);
 
 	return version;
 };
