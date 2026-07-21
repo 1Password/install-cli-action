@@ -45,7 +45,7 @@
 		"@1password/eslint-config": "^9.0.0",
 		"@1password/prettier-config": "^1.2.0",
 		"@types/jest": "^30.0.0",
-		"@types/node": "^24.0.14",
+		"@types/node": "^26.0.0",
 		"@types/semver": "^7.7.0",
 		"@vercel/ncc": "^0.38.3",
 		"eslint": "^9.31.0",
