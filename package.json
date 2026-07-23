@@ -52,7 +52,7 @@
 		"husky": "^9.1.7",
 		"jest": "^30.0.4",
 		"lint-staged": "^16.1.2",
-		"ts-jest": "^29.4.0",
+		"ts-jest": "^29.4.11",
 		"typescript": "^5.8.3"
 	},
 	"overrides": {
