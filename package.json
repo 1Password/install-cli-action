@@ -42,7 +42,7 @@
 		"semver": "^7.8.5"
 	},
 	"devDependencies": {
-		"@1password/eslint-config": "^9.0.0",
+		"@1password/eslint-config": "^9.2.0",
 		"@1password/prettier-config": "^1.2.0",
 		"@types/jest": "^30.0.0",
 		"@types/node": "^24.0.14",
